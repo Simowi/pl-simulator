@@ -65,11 +65,13 @@ body{background:var(--bg);color:#e8e8e8;font-family:-apple-system,BlinkMacSystem
 .fmeta{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;}
 
 /* Score row: name — stepper — vs — stepper — name */
-.fmatch{display:grid;grid-template-columns:1fr auto auto auto 1fr;align-items:center;gap:8px;margin-bottom:10px;}
-.fname{font-size:14px;color:#bbb;line-height:1.2;}
+.fmatch{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.fnames{display:flex;justify-content:space-between;align-items:center;}
+.fname{font-size:14px;color:#bbb;line-height:1.2;flex:1;}
 .fname.bold{font-weight:700;color:#fff;}
 .fname.r{text-align:right;}
-.svs{font-size:14px;color:#333;font-weight:700;text-align:center;}
+.fsteppers{display:flex;align-items:center;justify-content:center;gap:10px;}
+.svs{font-size:14px;color:#333;font-weight:700;}
 
 .stepper{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:10px;overflow:hidden;}
 .sbtn{width:40px;height:46px;background:transparent;border:none;color:#777;font-size:21px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
@@ -271,15 +273,19 @@ function render(){
     return `<div class="fcard"><div class="fcard-inner">
       <div class="fmeta">SR${fx.gw} &nbsp;·&nbsp; ${fx.dt}</div>
       <div class="fmatch">
-        <span class="fname ${ih?'bold':''}">${hn}</span>
-        <div class="stepper">
-          <button class="sbtn" onclick="adj('${team}',${idx},'h',-1)">−</button>${hv}<button class="sbtn" onclick="adj('${team}',${idx},'h',1)">+</button>
+        <div class="fnames">
+          <span class="fname ${ih?'bold':''}">${hn}</span>
+          <span class="fname r ${!ih?'bold':''}">${an}</span>
         </div>
-        <span class="svs">–</span>
-        <div class="stepper">
-          <button class="sbtn" onclick="adj('${team}',${idx},'a',-1)">−</button>${av}<button class="sbtn" onclick="adj('${team}',${idx},'a',1)">+</button>
+        <div class="fsteppers">
+          <div class="stepper">
+            <button class="sbtn" onclick="adj('${team}',${idx},'h',-1)">−</button>${hv}<button class="sbtn" onclick="adj('${team}',${idx},'h',1)">+</button>
+          </div>
+          <span class="svs">–</span>
+          <div class="stepper">
+            <button class="sbtn" onclick="adj('${team}',${idx},'a',-1)">−</button>${av}<button class="sbtn" onclick="adj('${team}',${idx},'a',1)">+</button>
+          </div>
         </div>
-        <span class="fname r ${!ih?'bold':''}">${an}</span>
       </div>
       <div class="fbot">${pill}<div class="odds">${odds}</div></div>
     </div></div>`;
