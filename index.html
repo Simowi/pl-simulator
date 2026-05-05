@@ -3,309 +3,323 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Hvem faen vinner PL?</title>
 <style>
-:root{--ars:#ee0024;--ars-dim:#ff6b6b;--cit:#6cabdd;--cit-dim:#6cabdd;--bg:#111;--surface:#1a1a1a;--surface2:#222;--border:#2a2a2a;--text:#e8e8e8;--muted:#666;--subtle:#444;}
+:root{--ars:#ee0024;--ars-dim:#ff6b6b;--cit:#6cabdd;--bg:#111;--surface:#1a1a1a;--border:#2a2a2a;--text:#e8e8e8;--muted:#666;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding-bottom:48px;}
-.top-header{background:#0d0d0d;padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1e1e1e;}
-.logo-gif{animation-iteration-count:infinite;width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid #2a2a2a;}
-.top-header-text{display:flex;flex-direction:column;gap:2px;}
-.top-title{font-size:18px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.02em;text-transform:uppercase;}
-.top-sub{font-size:11px;color:var(--muted);}
-.sticky-banner{position:sticky;top:0;z-index:100;background:rgba(13,13,13,0.97);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
-.banner-team{flex:1;display:flex;flex-direction:column;gap:2px;}
-.banner-team.right{align-items:flex-end;}
-.banner-team-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;}
-.banner-team-name.ars{color:var(--ars-dim);}
-.banner-team-name.cit{color:var(--cit-dim);}
-.banner-pts{font-size:30px;font-weight:800;line-height:1;color:#fff;}
-.banner-gd{font-size:11px;color:var(--muted);margin-top:1px;}
-.banner-mid{width:90px;display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;}
-.banner-pos-row{display:flex;gap:6px;}
-.pos-badge{font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.pos-badge.ars{background:var(--ars);color:#fff;}
-.pos-badge.cit{background:var(--cit);color:#001830;}
-.banner-gap{font-size:22px;font-weight:800;line-height:1;}
-.gap-pos{color:#4caf50;}.gap-neg{color:#f44336;}.gap-zero{color:#cddc39;}
-.banner-gap-label{font-size:10px;color:var(--muted);}
-.title-banner{display:none;align-items:center;gap:12px;padding:16px 20px;font-weight:700;font-size:15px;line-height:1.4;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding-bottom:48px;}
+
+.top-header{background:#0d0d0d;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1e1e1e;}
+.logo-gif{width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid #2a2a2a;}
+.top-title{font-size:17px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-0.01em;text-transform:uppercase;}
+.top-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.sticky-banner{position:sticky;top:0;z-index:100;background:rgba(13,13,13,0.97);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;backdrop-filter:blur(12px);}
+.bt{flex:1;display:flex;flex-direction:column;gap:1px;}
+.bt.r{align-items:flex-end;}
+.bt-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;}
+.bt-name.a{color:var(--ars-dim);}
+.bt-name.c{color:var(--cit);}
+.bt-pts{font-size:28px;font-weight:800;line-height:1;color:#fff;}
+.bt-gd{font-size:10px;color:var(--muted);}
+.bm{width:80px;display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;}
+.bm-pos{display:flex;gap:5px;}
+.bm-badge{font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.bm-badge.a{background:var(--ars);color:#fff;}
+.bm-badge.c{background:var(--cit);color:#001830;}
+.bm-gap{font-size:20px;font-weight:800;line-height:1;}
+.gp{color:#4caf50;}.gn{color:#f44336;}.gz{color:#cddc39;}
+.bm-lbl{font-size:10px;color:var(--muted);}
+
+.title-banner{display:none;align-items:center;gap:12px;padding:14px 16px;font-weight:700;font-size:14px;line-height:1.4;}
 .title-banner.show{display:flex;}
 .title-banner.arsenal{background:#5a0000;color:#fff;border-bottom:1px solid #a00;}
 .title-banner.city{background:#001e3d;color:#fff;border-bottom:1px solid #4a8abf;}
 .title-banner.draw{background:#1e1e1e;color:#fff;border-bottom:1px solid #444;}
-.trophy-icon{font-size:30px;flex-shrink:0;}
-.content{padding:16px 16px 0;max-width:520px;margin:0 auto;}
-.prob-section{background:var(--surface);border-radius:16px;padding:16px;margin-bottom:16px;}
-.prob-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;}
-.prob-side{display:flex;flex-direction:column;gap:2px;}
-.prob-side.right{align-items:flex-end;}
-.prob-team-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;}
-.prob-team-lbl.ars{color:var(--ars-dim);}.prob-team-lbl.cit{color:var(--cit-dim);}
-.prob-pct{font-size:30px;font-weight:800;line-height:1;}
-.prob-pct.ars{color:var(--ars-dim);}.prob-pct.cit{color:var(--cit-dim);}
-.prob-center{text-align:center;display:flex;flex-direction:column;gap:3px;justify-content:flex-end;padding-bottom:4px;}
-.prob-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.prob-tie{font-size:12px;color:var(--subtle);}
-.prob-bar-wrap{height:9px;background:#0d0d0d;border-radius:9px;overflow:hidden;display:flex;}
-.prob-bar-ars{height:100%;background:var(--ars);border-radius:9px 0 0 9px;transition:width 0.55s cubic-bezier(0.4,0,0.2,1);}
-.prob-bar-cit{height:100%;background:var(--cit);border-radius:0 9px 9px 0;margin-left:auto;transition:width 0.55s cubic-bezier(0.4,0,0.2,1);}
-.prob-sub{font-size:10px;color:#333;text-align:center;margin-top:8px;}
-.section-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:22px;}
-.fixture-card{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:10px;}
-.fixture-row{padding:16px;}
-.fix-meta{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;}
-.fix-match-row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:12px;}.fix-team-name{font-size:13px;color:#bbb;flex:1;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.fix-team-name.bold{font-weight:700;color:#fff;}.fix-team-name.right{text-align:right;}.fix-score-center{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.fix-name{font-size:13px;color:#bbb;flex:1;line-height:1.3;}
-.fix-name.bold{font-weight:700;color:#fff;}
-.fix-name.right{text-align:right;}
-.score-block{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.score-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.score-col-label{font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.05em;}
-.score-stepper{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:12px;overflow:hidden;}
-.score-btn{width:44px;height:48px;background:transparent;border:none;color:#777;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
-.score-btn:active{background:#2a2a2a;color:#fff;}
-.score-val{width:40px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;border-left:1px solid #2a2a2a;border-right:1px solid #2a2a2a;-webkit-user-select:none;user-select:none;}
-.score-val.empty{color:#383838;font-size:16px;font-weight:400;}
-.score-vs{font-size:14px;color:#333;font-weight:700;margin-top:16px;}
-.fix-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
-.result-pill{display:inline-block;font-size:11px;font-weight:700;padding:4px 12px;border-radius:8px;text-transform:uppercase;letter-spacing:0.04em;}
-.pill-w{background:#0d2e0d;color:#4caf50;}.pill-d{background:#2a2a0d;color:#cddc39;}.pill-l{background:#2e0d0d;color:#f44336;}.pill-none{background:#1e1e1e;color:#444;}
-.match-odds{display:flex;gap:5px;}
-.odd-pill{font-size:10px;padding:4px 9px;border-radius:7px;font-weight:600;background:#1e1e1e;color:#555;border:1px solid #2a2a2a;}
-.odd-w{background:#0d2e0d;color:#4caf50;border-color:#1a4a1a;}.odd-d{background:#2a2a0d;color:#cddc39;border-color:#3a3a14;}.odd-l{background:#2e0d0d;color:#f44336;border-color:#4a1a1a;}
-@keyframes flashUp{0%,55%{background:#0a3018;}100%{background:transparent;}}
-@keyframes flashDown{0%,55%{background:#300a0a;}100%{background:transparent;}}
-.flash-up{animation:flashUp 0.8s ease forwards;}.flash-down{animation:flashDown 0.8s ease forwards;}
-.reset-row{margin-top:28px;display:flex;justify-content:center;}
-.reset-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:14px 32px;border-radius:14px;cursor:pointer;font-size:15px;font-weight:500;width:100%;max-width:320px;}
-.reset-btn:active{background:var(--surface2);color:#fff;}
-.note{font-size:10px;color:#333;text-align:center;margin-top:20px;line-height:1.9;padding:0 8px;}
+
+.content{padding:14px 14px 0;max-width:480px;margin:0 auto;}
+
+.prob-box{background:var(--surface);border-radius:14px;padding:14px;margin-bottom:14px;}
+.prob-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px;}
+.prob-side{display:flex;flex-direction:column;gap:1px;}
+.prob-side.r{align-items:flex-end;}
+.prob-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;}
+.prob-lbl.a{color:var(--ars-dim);}
+.prob-lbl.c{color:var(--cit);}
+.prob-pct{font-size:28px;font-weight:800;line-height:1;}
+.prob-pct.a{color:var(--ars-dim);}
+.prob-pct.c{color:var(--cit);}
+.prob-mid{text-align:center;display:flex;flex-direction:column;gap:2px;padding-bottom:2px;}
+.prob-mid-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+.prob-tie{font-size:11px;color:#444;}
+.prob-bar{height:8px;background:#0d0d0d;border-radius:8px;overflow:hidden;display:flex;}
+.prob-bar-a{height:100%;background:var(--ars);border-radius:8px 0 0 8px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.prob-bar-c{height:100%;background:var(--cit);border-radius:0 8px 8px 0;margin-left:auto;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.prob-note{font-size:10px;color:#333;text-align:center;margin-top:7px;}
+
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+
+.fcard{background:var(--surface);border-radius:14px;margin-bottom:8px;padding:14px;}
+.fmeta{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
+
+.frow{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.fname{flex:1;font-size:14px;color:#bbb;line-height:1.2;min-width:0;}
+.fname.bold{font-weight:700;color:#fff;}
+.fname.r{text-align:right;}
+
+.stepper{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:10px;overflow:hidden;flex-shrink:0;}
+.sbtn{width:42px;height:46px;background:transparent;border:none;color:#777;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
+.sbtn:active{background:#2a2a2a;color:#fff;}
+.sval{width:38px;height:46px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;border-left:1px solid #2a2a2a;border-right:1px solid #2a2a2a;-webkit-user-select:none;user-select:none;}
+.sval.e{color:#383838;font-size:15px;font-weight:400;}
+.svs{font-size:13px;color:#333;font-weight:700;flex-shrink:0;}
+
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;}
+.rpill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:7px;text-transform:uppercase;}
+.rw{background:#0d2e0d;color:#4caf50;}.rd{background:#2a2a0d;color:#cddc39;}.rl{background:#2e0d0d;color:#f44336;}.rn{background:#1e1e1e;color:#444;}
+.odds{display:flex;gap:4px;}
+.opill{font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600;background:#1e1e1e;color:#555;border:1px solid #2a2a2a;}
+.ow{background:#0d2e0d;color:#4caf50;border-color:#1a4a1a;}
+.od{background:#2a2a0d;color:#cddc39;border-color:#3a3a14;}
+.ol{background:#2e0d0d;color:#f44336;border-color:#4a1a1a;}
+
+@keyframes fup{0%,55%{background:#0a3018;}100%{background:transparent;}}
+@keyframes fdn{0%,55%{background:#300a0a;}100%{background:transparent;}}
+.fu{animation:fup .8s ease forwards;}
+.fd{animation:fdn .8s ease forwards;}
+
+.reset-row{margin-top:24px;display:flex;justify-content:center;}
+.rbtn{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:14px 32px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:500;width:100%;max-width:300px;}
+.rbtn:active{background:#222;color:#fff;}
+.note{font-size:10px;color:#333;text-align:center;margin-top:16px;line-height:1.8;padding:0 8px;}
 </style>
 </head>
 <body>
+
 <div class="top-header">
   <img class="logo-gif" src="logo.gif" alt="logo">
-  <div class="top-header-text">
+  <div>
     <div class="top-title">Hvem faen vinner PL?</div>
     <div class="top-sub">Premier League 2024/25 &nbsp;·&nbsp; Simuler de siste kampene</div>
   </div>
 </div>
-<div class="sticky-banner" id="stickyBanner">
-  <div class="banner-team">
-    <span class="banner-team-name ars">Arsenal</span>
-    <span class="banner-pts" id="bannerArspts">76</span>
-    <span class="banner-gd" id="bannerArsgd">MF +41</span>
+
+<div class="sticky-banner" id="sb">
+  <div class="bt">
+    <span class="bt-name a">Arsenal</span>
+    <span class="bt-pts" id="bap">76</span>
+    <span class="bt-gd" id="bag">MF +41</span>
   </div>
-  <div class="banner-mid">
-    <div class="banner-pos-row">
-      <span class="pos-badge ars" id="bannerArsPos">1</span>
-      <span class="pos-badge cit" id="bannerCitPos">2</span>
+  <div class="bm">
+    <div class="bm-pos">
+      <span class="bm-badge a" id="bpos1">1</span>
+      <span class="bm-badge c" id="bpos2">2</span>
     </div>
-    <div class="banner-gap gap-pos" id="bannerGap">+5</div>
-    <div class="banner-gap-label" id="bannerGapLbl">Arsenal leder</div>
+    <div class="bm-gap gp" id="bgap">+5</div>
+    <div class="bm-lbl" id="blbl">Arsenal leder</div>
   </div>
-  <div class="banner-team right">
-    <span class="banner-team-name cit">Man City</span>
-    <span class="banner-pts" id="bannerCitpts">71</span>
-    <span class="banner-gd" id="bannerCitgd">MF +37</span>
+  <div class="bt r">
+    <span class="bt-name c">Man City</span>
+    <span class="bt-pts" id="bcp">71</span>
+    <span class="bt-gd" id="bcg">MF +37</span>
   </div>
 </div>
-<div class="title-banner" id="titleBanner">
-  <span class="trophy-icon">&#127942;</span>
-  <span id="titleText"></span>
-</div>
+
+<div class="title-banner" id="tb"><span style="font-size:28px;flex-shrink:0">&#127942;</span><span id="tt"></span></div>
+
 <div class="content">
-  <div class="prob-section">
-    <div class="prob-header">
+  <div class="prob-box">
+    <div class="prob-row">
       <div class="prob-side">
-        <span class="prob-team-lbl ars">Arsenal</span>
-        <span class="prob-pct ars" id="arsProbPct">—</span>
+        <span class="prob-lbl a">Arsenal</span>
+        <span class="prob-pct a" id="ap">—</span>
       </div>
-      <div class="prob-center">
-        <span class="prob-title">Tittel-sannsynlighet</span>
-        <span class="prob-tie" id="drawProbPct">beregner…</span>
+      <div class="prob-mid">
+        <span class="prob-mid-lbl">Tittel-sannsynlighet</span>
+        <span class="prob-tie" id="dp">beregner…</span>
       </div>
-      <div class="prob-side right">
-        <span class="prob-team-lbl cit">Man City</span>
-        <span class="prob-pct cit" id="citProbPct">—</span>
+      <div class="prob-side r">
+        <span class="prob-lbl c">Man City</span>
+        <span class="prob-pct c" id="cp">—</span>
       </div>
     </div>
-    <div class="prob-bar-wrap">
-      <div class="prob-bar-ars" id="probBarArs" style="width:0%"></div>
-      <div class="prob-bar-cit" id="probBarCit" style="width:0%"></div>
+    <div class="prob-bar">
+      <div class="prob-bar-a" id="pba" style="width:0%"></div>
+      <div class="prob-bar-c" id="pbc" style="width:0%"></div>
     </div>
-    <div class="prob-sub">Monte Carlo · 60 000 simuleringer · bookmaker-odds per kamp · oppdateres live</div>
+    <div class="prob-note">Monte Carlo · 60 000 simuleringer · bookmaker-odds · oppdateres live</div>
   </div>
-  <div class="section-label">Arsenals kamper</div>
-  <div id="arsenalFixtures"></div>
-  <div class="section-label">Man Citys kamper</div>
-  <div id="cityFixtures"></div>
-  <div class="reset-row">
-    <button class="reset-btn" onclick="resetAll()">&#8635; Nullstill alle resultater</button>
-  </div>
-  <p class="note">Odds: Bet365 / William Hill · Målforskjell, deretter mål scoret som tiebreaker<br>City: 4 gjenstående PL-kamper · Arsenal: 3 · Grunndata: SR35</p>
+
+  <div class="sec-lbl">Arsenals kamper</div>
+  <div id="af"></div>
+  <div class="sec-lbl">Man Citys kamper</div>
+  <div id="cf"></div>
+
+  <div class="reset-row"><button class="rbtn" onclick="reset()">&#8635; Nullstill alle resultater</button></div>
+  <p class="note">Odds: Bet365 / William Hill · MF, deretter mål som tiebreaker<br>City: 4 kamper igjen · Arsenal: 3 · Grunndata: SR35</p>
 </div>
+
 <script>
-const BASE={arsenal:{pts:76,w:23,d:7,l:5,gf:67,ga:26,played:35},city:{pts:71,w:21,d:8,l:5,gf:69,ga:32,played:34}};
-const ARS_FIX=[
-  {gw:36,home:false,opp:'West Ham',date:'Søn 11. mai',odds:[2.50,3.40,2.80]},
-  {gw:37,home:true,opp:'Burnley',date:'Man 19. mai',odds:[1.22,6.50,13.0]},
-  {gw:38,home:false,opp:'Crystal Palace',date:'Søn 25. mai',odds:[3.20,3.40,2.15]}
+const BASE={a:{pts:76,w:23,d:7,l:5,gf:67,ga:26,pl:35},c:{pts:71,w:21,d:8,l:5,gf:69,ga:32,pl:34}};
+const AF=[
+  {gw:36,h:false,o:'West Ham',      dt:'Søn 11. mai',odds:[2.50,3.40,2.80]},
+  {gw:37,h:true, o:'Burnley',       dt:'Man 19. mai',odds:[1.22,6.50,13.0]},
+  {gw:38,h:false,o:'Crystal Palace',dt:'Søn 25. mai',odds:[3.20,3.40,2.15]}
 ];
-const CIT_FIX=[
-  {gw:35,home:true,opp:'Brentford',date:'Lør 9. mai',odds:[1.40,5.00,8.00]},
-  {gw:36,home:true,opp:'Crystal Palace',date:'Ons 13. mai',odds:[1.30,5.50,10.0]},
-  {gw:37,home:false,opp:'Bournemouth',date:'Tir 19. mai',odds:[2.40,3.30,3.10]},
-  {gw:38,home:true,opp:'Aston Villa',date:'Søn 25. mai',odds:[1.55,4.00,6.00]}
+const CF=[
+  {gw:35,h:true, o:'Brentford',     dt:'Lør 9. mai', odds:[1.40,5.00,8.00]},
+  {gw:36,h:true, o:'Crystal Palace',dt:'Ons 13. mai',odds:[1.30,5.50,10.0]},
+  {gw:37,h:false,o:'Bournemouth',   dt:'Tir 19. mai',odds:[2.40,3.30,3.10]},
+  {gw:38,h:true, o:'Aston Villa',   dt:'Søn 25. mai',odds:[1.55,4.00,6.00]}
 ];
-let arsScores=ARS_FIX.map(()=>({home:null,away:null}));
-let cityScores=CIT_FIX.map(()=>({home:null,away:null}));
-let prevLeader='arsenal';
+let as=AF.map(()=>({h:null,a:null}));
+let cs=CF.map(()=>({h:null,a:null}));
+let prev='a';
+
 function norm(o){const s=o.reduce((a,b)=>a+1/b,0);return o.map(v=>(1/v)/s);}
-function wdl(fix,ih){const p=norm(fix.odds);return ih?[p[0],p[1],p[2]]:[p[2],p[1],p[0]];}
-function calcStats(base,scores,fixes){
-  let{pts,w,d,l,gf,ga,played}=Object.assign({},base);
-  scores.forEach((sc,i)=>{
-    if(sc.home===null||sc.away===null)return;
-    played++;
-    const ih=fixes[i].home,tg=ih?sc.home:sc.away,og=ih?sc.away:sc.home;
+function wdl(f,ih){const p=norm(f.odds);return ih?[p[0],p[1],p[2]]:[p[2],p[1],p[0]];}
+
+function calc(base,sc,fx){
+  let{pts,w,d,l,gf,ga,pl}=Object.assign({},base);
+  sc.forEach((s,i)=>{
+    if(s.h===null||s.a===null)return;
+    pl++;
+    const ih=fx[i].h,tg=ih?s.h:s.a,og=ih?s.a:s.h;
     gf+=tg;ga+=og;
-    if(tg>og){pts+=3;w++;}else if(tg===og){pts+=1;d++;}else{l++;}
+    if(tg>og){pts+=3;w++;}else if(tg===og){pts+=1;d++;}else l++;
   });
-  return{pts,w,d,l,gf,ga,gd:gf-ga,played};
+  return{pts,w,d,l,gf,ga,gd:gf-ga,pl};
 }
-function getResult(sc,ih){
-  if(sc.home===null||sc.away===null)return null;
-  const tg=ih?sc.home:sc.away,og=ih?sc.away:sc.home;
+
+function res(s,ih){
+  if(s.h===null||s.a===null)return null;
+  const tg=ih?s.h:s.a,og=ih?s.a:s.h;
   return tg>og?'V':tg===og?'U':'T';
 }
+
 function cmp(a,b){if(b.pts!==a.pts)return b.pts-a.pts;if(b.gd!==a.gd)return b.gd-a.gd;return b.gf-a.gf;}
-function monteCarlo(ars,cit,N=60000){
-  const af=ARS_FIX.map((f,i)=>arsScores[i].home!==null?null:wdl(f,f.home));
-  const cf=CIT_FIX.map((f,i)=>cityScores[i].home!==null?null:wdl(f,f.home));
-  let av=0,cv=0,dv=0;
+
+function mc(av,cv,N=60000){
+  const af=AF.map((f,i)=>as[i].h!==null?null:wdl(f,f.h));
+  const cf=CF.map((f,i)=>cs[i].h!==null?null:wdl(f,f.h));
+  let a=0,c=0,d=0;
   for(let i=0;i<N;i++){
-    let ap=ars.pts,agd=ars.gd,agf=ars.gf,cp=cit.pts,cgd=cit.gd,cgf=cit.gf;
-    af.forEach(w=>{if(!w)return;const r=Math.random();if(r<w[0]){ap+=3;agd+=~~(Math.random()*3)+1;agf+=~~(Math.random()*3)+1;}else if(r<w[0]+w[1]){ap+=1;}else{agd-=~~(Math.random()*2)+1;}});
-    cf.forEach(w=>{if(!w)return;const r=Math.random();if(r<w[0]){cp+=3;cgd+=~~(Math.random()*3)+1;cgf+=~~(Math.random()*3)+1;}else if(r<w[0]+w[1]){cp+=1;}else{cgd-=~~(Math.random()*2)+1;}});
-    if(ap>cp)av++;else if(cp>ap)cv++;else if(agd>cgd)av++;else if(cgd>agd)cv++;else if(agf>cgf)av++;else if(cgf>agf)cv++;else dv++;
+    let ap=av.pts,ag=av.gd,af2=av.gf,cp=cv.pts,cg=cv.gd,cf2=cv.gf;
+    af.forEach(w=>{if(!w)return;const r=Math.random();if(r<w[0]){ap+=3;ag+=~~(Math.random()*3)+1;af2+=~~(Math.random()*3)+1;}else if(r<w[0]+w[1])ap+=1;else ag-=~~(Math.random()*2)+1;});
+    cf.forEach(w=>{if(!w)return;const r=Math.random();if(r<w[0]){cp+=3;cg+=~~(Math.random()*3)+1;cf2+=~~(Math.random()*3)+1;}else if(r<w[0]+w[1])cp+=1;else cg-=~~(Math.random()*2)+1;});
+    if(ap>cp)a++;else if(cp>ap)c++;else if(ag>cg)a++;else if(cg>ag)c++;else if(af2>cf2)a++;else if(cf2>af2)c++;else d++;
   }
-  return{ars:av/N,cit:cv/N,draw:dv/N};
+  return{a:a/N,c:c/N,d:d/N};
 }
-function getLeader(ars,cit){return cmp(ars,cit)<0?'arsenal':cmp(cit,ars)<0?'city':'draw';}
+
+function leader(av,cv){return cmp(av,cv)<0?'a':cmp(cv,av)<0?'c':'d';}
+
 function refresh(){
-  const ars=calcStats(BASE.arsenal,arsScores,ARS_FIX);
-  const cit=calcStats(BASE.city,cityScores,CIT_FIX);
-  const newLeader=getLeader(ars,cit);
-  const swapped=newLeader!==prevLeader&&newLeader!=='draw'&&prevLeader!=='draw';
-  prevLeader=newLeader;
-  updateBanner(ars,cit,newLeader,swapped);
-  updateProb(ars,cit);
-  updateTitleBanner(ars,cit,newLeader);
-  renderFixtures();
+  const av=calc(BASE.a,as,AF);
+  const cv=calc(BASE.c,cs,CF);
+  const nl=leader(av,cv);
+  const sw=nl!==prev&&nl!=='d'&&prev!=='d';
+  prev=nl;
+  updateBanner(av,cv,nl,sw);
+  updateProb(av,cv);
+  updateTitle(av,cv,nl);
+  render();
 }
-function updateBanner(ars,cit,leader,swapped){
-  const gap=ars.pts-cit.pts;
-  document.getElementById('bannerArspts').textContent=ars.pts;
-  document.getElementById('bannerCitpts').textContent=cit.pts;
-  document.getElementById('bannerArsgd').textContent='MF '+(ars.gd>=0?'+':'')+ars.gd;
-  document.getElementById('bannerCitgd').textContent='MF '+(cit.gd>=0?'+':'')+cit.gd;
-  document.getElementById('bannerArsPos').textContent=leader==='arsenal'?1:2;
-  document.getElementById('bannerCitPos').textContent=leader==='city'?1:2;
-  const gapEl=document.getElementById('bannerGap');
-  gapEl.textContent=(gap>0?'+':'')+gap;
-  gapEl.className='banner-gap '+(gap>0?'gap-pos':gap<0?'gap-neg':'gap-zero');
-  document.getElementById('bannerGapLbl').textContent=gap>0?'Arsenal leder':gap<0?'City leder':'Likt';
-  if(swapped){
-    const b=document.getElementById('stickyBanner');
-    b.classList.remove('flash-up','flash-down');
-    void b.offsetWidth;
-    b.classList.add(leader==='city'?'flash-down':'flash-up');
-    setTimeout(()=>b.classList.remove('flash-up','flash-down'),900);
+
+function updateBanner(av,cv,nl,sw){
+  const gap=av.pts-cv.pts;
+  document.getElementById('bap').textContent=av.pts;
+  document.getElementById('bcp').textContent=cv.pts;
+  document.getElementById('bag').textContent='MF '+(av.gd>=0?'+':'')+av.gd;
+  document.getElementById('bcg').textContent='MF '+(cv.gd>=0?'+':'')+cv.gd;
+  document.getElementById('bpos1').textContent=nl==='a'?1:2;
+  document.getElementById('bpos2').textContent=nl==='c'?1:2;
+  const g=document.getElementById('bgap');
+  g.textContent=(gap>0?'+':'')+gap;
+  g.className='bm-gap '+(gap>0?'gp':gap<0?'gn':'gz');
+  document.getElementById('blbl').textContent=gap>0?'Arsenal leder':gap<0?'City leder':'Likt';
+  if(sw){
+    const b=document.getElementById('sb');
+    b.classList.remove('fu','fd');void b.offsetWidth;
+    b.classList.add(nl==='c'?'fd':'fu');
+    setTimeout(()=>b.classList.remove('fu','fd'),900);
   }
 }
-function updateProb(ars,cit){
-  const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
-  let ap,cp,dp;
-  if(allDone){const al=cmp(ars,cit)<0,cl=cmp(cit,ars)<0;ap=al?1:0;cp=cl?1:0;dp=(!al&&!cl)?1:0;}
-  else{const mc=monteCarlo(ars,cit);ap=mc.ars;cp=mc.cit;dp=mc.draw;}
-  document.getElementById('arsProbPct').textContent=Math.round(ap*100)+'%';
-  document.getElementById('citProbPct').textContent=Math.round(cp*100)+'%';
-  document.getElementById('drawProbPct').textContent='Uavgjort: '+Math.round(dp*100)+'%';
-  document.getElementById('probBarArs').style.width=Math.round(ap*100)+'%';
-  document.getElementById('probBarCit').style.width=Math.round(cp*100)+'%';
+
+function updateProb(av,cv){
+  const done=as.every(s=>s.h!==null)&&cs.every(s=>s.h!==null);
+  let a,c,d;
+  if(done){const al=cmp(av,cv)<0,cl=cmp(cv,av)<0;a=al?1:0;c=cl?1:0;d=(!al&&!cl)?1:0;}
+  else{const m=mc(av,cv);a=m.a;c=m.c;d=m.d;}
+  document.getElementById('ap').textContent=Math.round(a*100)+'%';
+  document.getElementById('cp').textContent=Math.round(c*100)+'%';
+  document.getElementById('dp').textContent='Uavgjort: '+Math.round(d*100)+'%';
+  document.getElementById('pba').style.width=Math.round(a*100)+'%';
+  document.getElementById('pbc').style.width=Math.round(c*100)+'%';
 }
-function updateTitleBanner(ars,cit,leader){
-  const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
-  const b=document.getElementById('titleBanner');
-  if(!allDone){b.className='title-banner';return;}
-  b.className='title-banner show '+leader;
-  document.getElementById('titleText').textContent=
-    leader==='arsenal'?'Arsenal er Premier League-mestere 2024/25!':
-    leader==='city'?'Manchester City er Premier League-mestere 2024/25!':
+
+function updateTitle(av,cv,nl){
+  const done=as.every(s=>s.h!==null)&&cs.every(s=>s.h!==null);
+  const b=document.getElementById('tb');
+  if(!done){b.className='title-banner';return;}
+  b.className='title-banner show '+nl;
+  document.getElementById('tt').textContent=
+    nl==='a'?'Arsenal er Premier League-mestere 2024/25!':
+    nl==='c'?'Manchester City er Premier League-mestere 2024/25!':
     'Likt på alle tiebreakere — videre kriterier gjelder.';
 }
-function renderFixtures(){
-  document.getElementById('arsenalFixtures').innerHTML='';
-  document.getElementById('cityFixtures').innerHTML='';
-  function card(sc,fix,idx,team){
-    const ih=fix.home,me=team==='ars'?'Arsenal':'Man City';
-    const hn=ih?me:fix.opp,an=ih?fix.opp:me;
-    const res=getResult(sc,ih);
-    const w=wdl(fix,ih);
-    const pill=res?`<span class="result-pill pill-${res==='V'?'w':res==='U'?'d':'l'}">${res}</span>`:`<span class="result-pill pill-none">TBD</span>`;
-    const odds=[{l:'V',p:w[0],c:res==='V'?'odd-w':''},{l:'U',p:w[1],c:res==='U'?'odd-d':''},{l:'T',p:w[2],c:res==='T'?'odd-l':''}]
-      .map(o=>`<span class="odd-pill ${o.c}">${o.l} ${Math.round(o.p*100)}%</span>`).join('');
-    const hDisp=sc.home!==null?`<span class="score-val">${sc.home}</span>`:`<span class="score-val empty">–</span>`;
-    const aDisp=sc.away!==null?`<span class="score-val">${sc.away}</span>`:`<span class="score-val empty">–</span>`;
-    const hnS=hn.length>9?hn.substring(0,9)+'…':hn;
-    const anS=an.length>9?an.substring(0,9)+'…':an;
-    return `<div class="fixture-card"><div class="fixture-row">
-      <div class="fix-meta">SR${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
-      <div class="fix-teams-row">
-        <span class="fix-name ${ih?'bold':''}">${hn}</span>
-        <div class="score-block">
-          <div class="score-col"><div class="score-col-label">${hnS}</div>
-            <div class="score-stepper">
-              <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">−</button>
-              ${hDisp}
-              <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">+</button>
-            </div>
-          </div>
-          <span class="score-vs">–</span>
-          <div class="score-col"><div class="score-col-label">${anS}</div>
-            <div class="score-stepper">
-              <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">−</button>
-              ${aDisp}
-              <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">+</button>
-            </div>
-          </div>
+
+function render(){
+  document.getElementById('af').innerHTML='';
+  document.getElementById('cf').innerHTML='';
+
+  function card(sc,fx,idx,team){
+    const ih=fx.h,me=team==='a'?'Arsenal':'Man City';
+    const hn=ih?me:fx.o, an=ih?fx.o:me;
+    const r=res(sc,ih);
+    const w=wdl(fx,ih);
+    const pill=r?`<span class="rpill ${r==='V'?'rw':r==='U'?'rd':'rl'}">${r}</span>`:`<span class="rpill rn">TBD</span>`;
+    const odds=[{l:'V',p:w[0],c:r==='V'?'ow':''},{l:'U',p:w[1],c:r==='U'?'od':''},{l:'T',p:w[2],c:r==='T'?'ol':''}]
+      .map(o=>`<span class="opill ${o.c}">${o.l} ${Math.round(o.p*100)}%</span>`).join('');
+    const hv=sc.h!==null?`<span class="sval">${sc.h}</span>`:`<span class="sval e">–</span>`;
+    const av=sc.a!==null?`<span class="sval">${sc.a}</span>`:`<span class="sval e">–</span>`;
+    return `<div class="fcard">
+      <div class="fmeta">SR${fx.gw} &nbsp;·&nbsp; ${fx.dt}</div>
+      <div class="frow">
+        <span class="fname ${ih?'bold':''}">${hn}</span>
+        <div class="stepper">
+          <button class="sbtn" onclick="adj('${team}',${idx},'h',-1)">−</button>${hv}<button class="sbtn" onclick="adj('${team}',${idx},'h',1)">+</button>
         </div>
-        <span class="fix-name right ${!ih?'bold':''}">${an}</span>
+        <span class="svs">–</span>
+        <div class="stepper">
+          <button class="sbtn" onclick="adj('${team}',${idx},'a',-1)">−</button>${av}<button class="sbtn" onclick="adj('${team}',${idx},'a',1)">+</button>
+        </div>
+        <span class="fname r ${!ih?'bold':''}">${an}</span>
       </div>
-      <div class="fix-bottom">${pill}<div class="match-odds">${odds}</div></div>
-    </div></div>`;
+      <div class="fbot">${pill}<div class="odds">${odds}</div></div>
+    </div>`;
   }
-  ARS_FIX.forEach((f,i)=>{document.getElementById('arsenalFixtures').innerHTML+=card(arsScores[i],f,i,'ars');});
-  CIT_FIX.forEach((f,i)=>{document.getElementById('cityFixtures').innerHTML+=card(cityScores[i],f,i,'cit');});
+
+  AF.forEach((f,i)=>{document.getElementById('af').innerHTML+=card(as[i],f,i,'a');});
+  CF.forEach((f,i)=>{document.getElementById('cf').innerHTML+=card(cs[i],f,i,'c');});
 }
+
 function adj(team,idx,side,delta){
-  const sc=team==='ars'?arsScores:cityScores;
+  const sc=team==='a'?as:cs;
   if(sc[idx][side]===null&&delta<0)return;
-  if(sc[idx].home===null){sc[idx].home=0;sc[idx].away=0;}
+  if(sc[idx].h===null){sc[idx].h=0;sc[idx].a=0;}
   sc[idx][side]=Math.max(0,sc[idx][side]+delta);
-  const other=side==='home'?'away':'home';
+  const other=side==='h'?'a':'h';
   if(sc[idx][other]===null)sc[idx][other]=0;
   refresh();
 }
-function resetAll(){
-  arsScores=ARS_FIX.map(()=>({home:null,away:null}));
-  cityScores=CIT_FIX.map(()=>({home:null,away:null}));
-  prevLeader='arsenal';
-  refresh();
+
+function reset(){
+  as=AF.map(()=>({h:null,a:null}));
+  cs=CF.map(()=>({h:null,a:null}));
+  prev='a';refresh();
 }
+
 refresh();
 </script>
 </body>
