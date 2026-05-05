@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PL Title Race 2024/25</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a1a;
+    color: #e8e8e8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+
+  .app { max-width: 820px; margin: 0 auto; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2e2e2e;
+  }
+
+  .pl-badge {
+    width: 44px; height: 44px;
+    background: #3d0070;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+
+  .header-text h1 { font-size: 20px; font-weight: 700; color: #fff; }
+  .header-text p { font-size: 13px; color: #888; margin-top: 2px; }
+
+  .reset-btn {
+    margin-left: auto;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    color: #aaa;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.15s;
+  }
+  .reset-btn:hover { background: #333; color: #fff; }
+
+  /* TITLE BANNER */
+  .title-banner {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .title-banner.show { display: flex; }
+  .title-banner.arsenal { background: #8b0000; color: #fff; border: 1px solid #cc0000; }
+  .title-banner.city { background: #003870; color: #fff; border: 1px solid #6cabdd; }
+  .title-banner.draw { background: #2a2a2a; color: #fff; border: 1px solid #555; }
+  .trophy-icon { font-size: 24px; }
+
+  /* STANDINGS TABLE */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .table-wrap {
+    background: #222;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 28px 1fr 38px 34px 34px 34px 48px 42px 50px;
+    padding: 10px 16px;
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #2e2e2e;
+    gap: 0 4px;
+  }
+
+  .team-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 38px 34px 34px 34px 48px 42px 50px;
+    padding: 10px 16px;
+    font-size: 13px;
+    align-items: center;
+    border-bottom: 1px solid #282828;
+    gap: 0 4px;
+    transition: background 0.15s;
+  }
+
+  .team-row:last-child { border-bottom: none; }
+  .team-row.arsenal-row { background: #1e0808; }
+  .team-row.city-row { background: #070e1a; }
+  .team-row.arsenal-row.winner { background: #3a0000; }
+  .team-row.city-row.winner { background: #001633; }
+
+  .pos { color: #888; font-size: 12px; text-align: center; }
+  .team-name { font-weight: 500; color: #e8e8e8; display: flex; align-items: center; gap: 8px; }
+  .team-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-arsenal { background: #ee0024; }
+  .dot-city { background: #6cabdd; }
+  .dot-other { background: #555; }
+
+  .stat { text-align: center; color: #ccc; }
+  .stat.pts { font-weight: 700; color: #fff; font-size: 15px; }
+  .stat.gd { color: #aaa; }
+  .stat.gf { color: #aaa; }
+
+  .champion-badge {
+    display: none;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+  .champion-badge.show { display: inline-block; }
+  .arsenal-champ { background: #cc0000; color: #fff; }
+  .city-champ { background: #6cabdd; color: #001f3d; }
+
+  /* FIXTURES */
+  .fixtures-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 600px) { .fixtures-grid { grid-template-columns: 1fr; } }
+
+  .team-fixtures { background: #222; border-radius: 12px; overflow: hidden; }
+
+  .team-fixtures-header {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #2e2e2e;
+  }
+
+  .arsenal-header { background: #2a0a0a; color: #ff6b6b; }
+  .city-header { background: #070f1f; color: #6cabdd; }
+
+  .fixture-row {
+    padding: 12px 16px;
+    border-bottom: 1px solid #282828;
+  }
+  .fixture-row:last-child { border-bottom: none; }
+
+  .fixture-meta {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .fixture-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .fixture-team-name {
+    font-size: 12px;
+    color: #ccc;
+    flex: 1;
+  }
+  .fixture-team-name.right { text-align: right; }
+  .fixture-team-name.home { font-weight: 600; color: #e8e8e8; }
+
+  .score-inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .score-group {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .score-btn {
+    width: 24px; height: 30px;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.1s, color 0.1s;
+    line-height: 1;
+    padding-bottom: 2px;
+  }
+  .score-btn:hover { background: #2a2a2a; color: #fff; }
+
+  .score-display {
+    width: 28px; height: 30px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #3a3a3a;
+    border-right: 1px solid #3a3a3a;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .score-display::-webkit-outer-spin-button,
+  .score-display::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .score-sep {
+    font-size: 14px;
+    color: #555;
+    padding: 0 3px;
+    font-weight: 700;
+  }
+
+  .result-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .pill-w { background: #1a4a1a; color: #4caf50; }
+  .pill-d { background: #3a3a1a; color: #cddc39; }
+  .pill-l { background: #4a1a1a; color: #f44336; }
+  .pill-none { background: #2a2a2a; color: #666; }
+
+  /* SCENARIO */
+  .scenario-bar {
+    background: #222;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .scenario-stat { text-align: center; }
+  .scenario-stat .s-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .scenario-stat .s-val { font-size: 20px; font-weight: 700; color: #fff; }
+  .scenario-stat .s-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+  .gap-positive { color: #4caf50 !important; }
+  .gap-negative { color: #f44336 !important; }
+  .gap-zero { color: #cddc39 !important; }
+
+  .note { font-size: 12px; color: #555; text-align: center; margin-top: 12px; }
+  .pl-line { width: 3px; height: 100%; background: #37003c; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="pl-badge">&#9917;</div>
+    <div class="header-text">
+      <h1>Premier League 2024/25 — Title Race</h1>
+      <p>Simulate the final 3 gameweeks</p>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+  </div>
+
+  <div class="title-banner" id="titleBanner">
+    <span class="trophy-icon">&#127942;</span>
+    <span id="titleText"></span>
+  </div>
+
+  <div class="scenario-bar">
+    <div class="scenario-stat">
+      <div class="s-label">Arsenal pts</div>
+      <div class="s-val" id="arsTotal">76</div>
+      <div class="s-sub">projected</div>
+    </div>
+    <div class="scenario-stat">
+      <div class="s-label">Gap</div>
+      <div class="s-val gap-zero" id="gapVal">+5</div>
+      <div class="s-sub" id="gapSub">Arsenal lead</div>
+    </div>
+    <div class="scenario-stat">
+      <div class="s-label">City pts</div>
+      <div class="s-val" id="cityTotal">71</div>
+      <div class="s-sub">projected</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:10px;">Standings</div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <span>#</span>
+      <span>Club</span>
+      <span style="text-align:center">PL</span>
+      <span style="text-align:center">W</span>
+      <span style="text-align:center">D</span>
+      <span style="text-align:center">L</span>
+      <span style="text-align:center">GD</span>
+      <span style="text-align:center">GF</span>
+      <span style="text-align:center">PTS</span>
+    </div>
+    <div id="tableBody"></div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:10px;">Fixtures — enter results</div>
+  <div class="fixtures-grid">
+    <div class="team-fixtures">
+      <div class="team-fixtures-header arsenal-header">
+        <span style="width:10px;height:10px;background:#ee0024;border-radius:50%;display:inline-block"></span>
+        Arsenal
+      </div>
+      <div id="arsenalFixtures"></div>
+    </div>
+    <div class="team-fixtures">
+      <div class="team-fixtures-header city-header">
+        <span style="width:10px;height:10px;background:#6cabdd;border-radius:50%;display:inline-block"></span>
+        Man City
+      </div>
+      <div id="cityFixtures"></div>
+    </div>
+  </div>
+
+  <p class="note">City have 4 remaining PL games · Arsenal have 3 · GD tiebreaker applied · Data as of GW35</p>
+</div>
+
+<script>
+const BASE = {
+  arsenal: { pts: 76, w: 23, d: 7, l: 5, gf: 67, ga: 26, played: 35 },
+  city:    { pts: 71, w: 21, d: 8, l: 5, gf: 69, ga: 32, played: 34 }
+};
+
+const ARS_FIXTURES = [
+  { gw: 36, home: false, opponent: 'West Ham',      date: 'Sun 11 May' },
+  { gw: 37, home: true,  opponent: 'Burnley',       date: 'Mon 18 May' },
+  { gw: 38, home: false, opponent: 'Crystal Palace',date: 'Sun 25 May' }
+];
+
+const CITY_FIXTURES = [
+  { gw: 35, home: true,  opponent: 'Brentford',     date: 'Sat 9 May'  },
+  { gw: 36, home: true,  opponent: 'Crystal Palace',date: 'Wed 13 May' },
+  { gw: 37, home: false, opponent: 'Bournemouth',   date: 'Tue 19 May' },
+  { gw: 38, home: true,  opponent: 'Aston Villa',   date: 'Sun 25 May' }
+];
+
+let arsScores = ARS_FIXTURES.map(() => ({ home: null, away: null }));
+let cityScores = CITY_FIXTURES.map(() => ({ home: null, away: null }));
+
+function getResult(score, isHome) {
+  if (score.home === null || score.away === null) return null;
+  const teamGoals = isHome ? score.home : score.away;
+  const oppGoals  = isHome ? score.away : score.home;
+  if (teamGoals > oppGoals) return 'W';
+  if (teamGoals === oppGoals) return 'D';
+  return 'L';
+}
+
+function calcStats(base, scores, fixtures) {
+  let pts = base.pts, w = base.w, d = base.d, l = base.l;
+  let gf = base.gf, ga = base.ga, played = base.played;
+  scores.forEach((sc, i) => {
+    if (sc.home === null || sc.away === null) return;
+    played++;
+    const isHome = fixtures[i].home;
+    const teamG = isHome ? sc.home : sc.away;
+    const oppG  = isHome ? sc.away : sc.home;
+    gf += teamG; ga += oppG;
+    const res = getResult(sc, isHome);
+    if (res === 'W') { pts += 3; w++; }
+    else if (res === 'D') { pts += 1; d++; }
+    else { l++; }
+  });
+  return { pts, w, d, l, gf, ga, gd: gf - ga, played };
+}
+
+const OTHER_TEAMS = [
+  { name: 'Man United',   pts: 64, w: 18, d: 10, l: 7,  gf: 63, ga: 48, played: 35 },
+  { name: 'Liverpool',    pts: 58, w: 17, d: 7,  l: 11, gf: 59, ga: 47, played: 35 },
+  { name: 'Aston Villa',  pts: 58, w: 17, d: 7,  l: 11, gf: 48, ga: 44, played: 35 },
+  { name: 'Bournemouth',  pts: 52, w: 12, d: 16, l: 7,  gf: 55, ga: 52, played: 35 },
+  { name: 'Brentford',    pts: 51, w: 14, d: 9,  l: 12, gf: 52, ga: 46, played: 35 },
+  { name: 'Brighton',     pts: 50, w: 13, d: 11, l: 11, gf: 49, ga: 42, played: 35 },
+  { name: 'Chelsea',      pts: 48, w: 13, d: 9,  l: 13, gf: 54, ga: 48, played: 35 },
+  { name: 'Everton',      pts: 48, w: 13, d: 9,  l: 13, gf: 44, ga: 44, played: 35 },
+  { name: 'Fulham',       pts: 48, w: 14, d: 6,  l: 15, gf: 44, ga: 49, played: 35 },
+  { name: 'Sunderland',   pts: 47, w: 12, d: 11, l: 12, gf: 37, ga: 46, played: 35 },
+  { name: 'Newcastle',    pts: 45, w: 13, d: 6,  l: 16, gf: 49, ga: 51, played: 35 },
+  { name: 'Wolves',       pts: 40, w: 11, d: 7,  l: 17, gf: 41, ga: 55, played: 35 },
+  { name: 'Tottenham',    pts: 38, w: 10, d: 8,  l: 17, gf: 47, ga: 58, played: 35 },
+  { name: 'West Ham',     pts: 35, w: 9,  d: 8,  l: 18, gf: 38, ga: 56, played: 35 },
+  { name: 'Crystal Palace', pts: 34, w: 8, d: 10, l: 17, gf: 37, ga: 56, played: 35 },
+  { name: 'Nottm Forest', pts: 34, w: 9,  d: 7,  l: 19, gf: 38, ga: 62, played: 35 },
+  { name: 'Leicester',    pts: 26, w: 6,  d: 8,  l: 21, gf: 33, ga: 65, played: 35 },
+  { name: 'Burnley',      pts: 22, w: 5,  d: 7,  l: 23, gf: 29, ga: 72, played: 35 }
+];
+
+function buildTable() {
+  const ars = calcStats(BASE.arsenal, arsScores, ARS_FIXTURES);
+  const cit = calcStats(BASE.city, cityScores, CITY_FIXTURES);
+
+  const rows = [
+    { name: 'Arsenal',   ...ars, isArsenal: true, isCity: false },
+    { name: 'Man City',  ...cit, isArsenal: false, isCity: true },
+    ...OTHER_TEAMS.map(t => ({ ...t, gd: t.gf - t.ga, isArsenal: false, isCity: false }))
+  ];
+
+  rows.sort((a, b) => {
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    if (b.gd !== a.gd) return b.gd - a.gd;
+    return b.gf - a.gf;
+  });
+
+  const arsPos = rows.findIndex(r => r.isArsenal) + 1;
+  const citPos = rows.findIndex(r => r.isCity) + 1;
+  const winner = arsPos < citPos ? 'arsenal' : citPos < arsPos ? 'city' : ars.pts > cit.pts ? 'arsenal' : cit.pts > ars.pts ? 'city' : ars.gd > cit.gd ? 'arsenal' : cit.gd > ars.gd ? 'city' : 'draw';
+
+  const allPlayed = arsScores.every(s => s.home !== null && s.away !== null) &&
+                    cityScores.every(s => s.home !== null && s.away !== null);
+
+  const banner = document.getElementById('titleBanner');
+  const titleText = document.getElementById('titleText');
+  if (allPlayed) {
+    banner.classList.add('show');
+    banner.className = 'title-banner show ' + winner;
+    if (winner === 'arsenal') titleText.textContent = 'Arsenal are Premier League Champions 2024/25!';
+    else if (winner === 'city') titleText.textContent = 'Manchester City are Premier League Champions 2024/25!';
+    else titleText.textContent = 'Tied on points and goal difference — further tiebreakers apply.';
+  } else {
+    banner.classList.remove('show');
+  }
+
+  const gap = ars.pts - cit.pts;
+  document.getElementById('arsTotal').textContent = ars.pts;
+  document.getElementById('cityTotal').textContent = cit.pts;
+  const gapEl = document.getElementById('gapVal');
+  const gapSub = document.getElementById('gapSub');
+  gapEl.textContent = (gap > 0 ? '+' : '') + gap;
+  gapEl.className = 's-val ' + (gap > 0 ? 'gap-positive' : gap < 0 ? 'gap-negative' : 'gap-zero');
+  gapSub.textContent = gap > 0 ? 'Arsenal lead' : gap < 0 ? 'City lead' : 'Level';
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  rows.slice(0, 6).forEach((team, i) => {
+    const isWinner = (team.isArsenal && winner === 'arsenal') || (team.isCity && winner === 'city');
+    const rowClass = team.isArsenal ? 'team-row arsenal-row' + (isWinner && allPlayed ? ' winner' : '') :
+                     team.isCity   ? 'team-row city-row'    + (isWinner && allPlayed ? ' winner' : '') :
+                     'team-row';
+    const dotClass = team.isArsenal ? 'team-dot dot-arsenal' : team.isCity ? 'team-dot dot-city' : 'team-dot dot-other';
+    const badge = (team.isArsenal || team.isCity) && allPlayed && isWinner
+      ? `<span class="champion-badge show ${team.isArsenal ? 'arsenal-champ' : 'city-champ'}">&#127942; Champions</span>` : '';
+    const gdStr = team.gd >= 0 ? '+' + team.gd : team.gd;
+
+    tbody.innerHTML += `
+      <div class="${rowClass}">
+        <span class="pos">${i+1}</span>
+        <span class="team-name"><span class="${dotClass}"></span>${team.name}${badge}</span>
+        <span class="stat">${team.played}</span>
+        <span class="stat">${team.w}</span>
+        <span class="stat">${team.d}</span>
+        <span class="stat">${team.l}</span>
+        <span class="stat gd">${gdStr}</span>
+        <span class="stat gf">${team.gf}</span>
+        <span class="stat pts">${team.pts}</span>
+      </div>`;
+  });
+  const divider = document.createElement('div');
+  divider.style.cssText = 'padding:6px 16px;font-size:11px;color:#444;letter-spacing:0.05em;border-bottom:1px solid #282828;';
+  divider.textContent = '— positions 7–20 unchanged —';
+  tbody.appendChild(divider);
+}
+
+function renderFixtures() {
+  const arsEl = document.getElementById('arsenalFixtures');
+  const citEl = document.getElementById('cityFixtures');
+  arsEl.innerHTML = '';
+  citEl.innerHTML = '';
+
+  function makeRow(sc, fix, idx, team) {
+    const isHome = fix.home;
+    const homeTeam = isHome ? (team === 'ars' ? 'Arsenal' : 'Man City') : fix.opponent;
+    const awayTeam = isHome ? fix.opponent : (team === 'ars' ? 'Arsenal' : 'Man City');
+    const res = getResult(sc, isHome);
+    const pillHtml = res
+      ? `<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`
+      : `<span class="result-pill pill-none">TBD</span>`;
+
+    return `
+      <div class="fixture-row">
+        <div class="fixture-meta">GW${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
+        <div class="fixture-teams">
+          <span class="fixture-team-name home">${homeTeam}</span>
+          <div class="score-inputs">
+            <div class="score-group">
+              <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">&#8722;</button>
+              <input class="score-display" type="number" min="0" value="${sc.home !== null ? sc.home : '–'}"
+                oninput="setScore('${team}',${idx},'home',this.value)"
+                onfocus="if(this.value==='–')this.value=''"
+                onblur="if(this.value==='')this.value='–'" />
+              <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">&#43;</button>
+            </div>
+            <span class="score-sep">&#8211;</span>
+            <div class="score-group">
+              <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">&#8722;</button>
+              <input class="score-display" type="number" min="0" value="${sc.away !== null ? sc.away : '–'}"
+                oninput="setScore('${team}',${idx},'away',this.value)"
+                onfocus="if(this.value==='–')this.value=''"
+                onblur="if(this.value==='')this.value='–'" />
+              <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">&#43;</button>
+            </div>
+          </div>
+          <span class="fixture-team-name right">${awayTeam}</span>
+        </div>
+        <div>${pillHtml}</div>
+      </div>`;
+  }
+
+  ARS_FIXTURES.forEach((fix, i) => {
+    arsEl.innerHTML += makeRow(arsScores[i], fix, i, 'ars');
+  });
+  CITY_FIXTURES.forEach((fix, i) => {
+    citEl.innerHTML += makeRow(cityScores[i], fix, i, 'cit');
+  });
+}
+
+function adj(team, idx, side, delta) {
+  const scores = team === 'ars' ? arsScores : cityScores;
+  const cur = scores[idx][side];
+  const next = cur === null ? (delta > 0 ? 0 : null) : Math.max(0, cur + delta);
+  if (scores[idx][side] === null && delta < 0) return;
+  if (scores[idx].home === null && scores[idx].away === null && delta > 0) {
+    scores[idx].home = 0;
+    scores[idx].away = 0;
+  }
+  scores[idx][side] = next === null ? null : Math.max(0, (cur === null ? 0 : cur) + delta);
+  if (scores[idx][side] !== null && scores[idx][side === 'home' ? 'away' : 'home'] === null) {
+    scores[idx][side === 'home' ? 'away' : 'home'] = 0;
+  }
+  refresh();
+}
+
+function setScore(team, idx, side, val) {
+  const scores = team === 'ars' ? arsScores : cityScores;
+  const n = parseInt(val);
+  scores[idx][side] = isNaN(n) ? null : Math.max(0, n);
+  if (scores[idx][side] !== null && scores[idx][side === 'home' ? 'away' : 'home'] === null) {
+    scores[idx][side === 'home' ? 'away' : 'home'] = 0;
+  }
+  refresh();
+}
+
+function refresh() {
+  buildTable();
+  renderFixtures();
+}
+
+function resetAll() {
+  arsScores = ARS_FIXTURES.map(() => ({ home: null, away: null }));
+  cityScores = CITY_FIXTURES.map(() => ({ home: null, away: null }));
+  refresh();
+}
+
+refresh();
+</script>
+</body>
+</html>
