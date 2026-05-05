@@ -2,278 +2,430 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PL Title Race 2024/25</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ars: #ee0024;
+  --ars-bg: #1c0808;
+  --ars-dim: #ff6b6b;
+  --cit: #6cabdd;
+  --cit-bg: #06101e;
+  --cit-dim: #6cabdd;
+  --bg: #111;
+  --surface: #1a1a1a;
+  --surface2: #222;
+  --border: #2a2a2a;
+  --text: #e8e8e8;
+  --muted: #666;
+  --subtle: #444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
 body {
-  background: #141414; color: #e8e8e8;
+  background: var(--bg);
+  color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  min-height: 100vh; padding: 28px 20px;
+  min-height: 100vh;
+  padding-bottom: 40px;
 }
-.app { max-width: 860px; margin: 0 auto; }
 
-.header {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #262626;
+/* ── STICKY BANNER ── */
+.sticky-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0d0d0d;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-.pl-badge {
-  width: 44px; height: 44px; background: #37003c; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-}
-.header-text h1 { font-size: 19px; font-weight: 700; color: #fff; }
-.header-text p  { font-size: 12px; color: #666; margin-top: 3px; }
-.reset-btn {
-  margin-left: auto; background: #222; border: 1px solid #333; color: #aaa;
-  padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px;
-  transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
-}
-.reset-btn:hover { background: #2e2e2e; color: #fff; }
 
+.banner-team {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.banner-team.right { align-items: flex-end; }
+
+.banner-team-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.banner-team-name.ars { color: var(--ars-dim); }
+.banner-team-name.cit { color: var(--cit-dim); }
+
+.banner-pts {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+.banner-gd {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.banner-mid {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.banner-gap {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+.gap-pos { color: #4caf50; }
+.gap-neg { color: #f44336; }
+.gap-zero { color: #cddc39; }
+.banner-gap-label { font-size: 10px; color: var(--muted); }
+
+.banner-pos-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+.pos-badge {
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.pos-badge.ars { background: var(--ars); color: #fff; }
+.pos-badge.cit { background: var(--cit); color: #001830; }
+
+/* ── TITLE BANNER ── */
 .title-banner {
-  display: none; align-items: center; gap: 12px;
-  padding: 14px 20px; border-radius: 12px; margin-bottom: 20px;
-  font-weight: 700; font-size: 15px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.4;
 }
 .title-banner.show { display: flex; }
-.title-banner.arsenal { background: #6b0000; color: #fff; border: 1px solid #cc0000; }
-.title-banner.city    { background: #002850; color: #fff; border: 1px solid #5a9fd4; }
-.title-banner.draw    { background: #222;    color: #fff; border: 1px solid #444; }
-.trophy-icon { font-size: 26px; flex-shrink: 0; }
+.title-banner.arsenal { background: #5a0000; color: #fff; border-bottom: 1px solid #a00; }
+.title-banner.city    { background: #001e3d; color: #fff; border-bottom: 1px solid #4a8abf; }
+.title-banner.draw    { background: #1e1e1e; color: #fff; border-bottom: 1px solid #444; }
+.trophy-icon { font-size: 28px; flex-shrink: 0; }
 
-/* PROB BAR */
-.prob-section { margin-bottom: 22px; }
-.prob-label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
-.prob-team     { font-size: 13px; font-weight: 600; }
-.prob-team.ars { color: #ff6b6b; }
-.prob-team.cit { color: #6cabdd; }
-.prob-pct      { font-size: 24px; font-weight: 800; }
-.prob-pct.ars  { color: #ff6b6b; }
-.prob-pct.cit  { color: #6cabdd; }
-.prob-middle   { text-align: center; }
+/* ── PAGE CONTENT ── */
+.content { padding: 16px 16px 0; }
+
+/* ── PROB SECTION ── */
+.prob-section {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.prob-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.prob-side { display: flex; flex-direction: column; gap: 1px; }
+.prob-side.right { align-items: flex-end; }
+.prob-team-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.prob-team-lbl.ars { color: var(--ars-dim); }
+.prob-team-lbl.cit { color: var(--cit-dim); }
+.prob-pct { font-size: 28px; font-weight: 800; line-height: 1; }
+.prob-pct.ars { color: var(--ars-dim); }
+.prob-pct.cit { color: var(--cit-dim); }
+.prob-center { text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.prob-title  { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.prob-tie    { font-size: 12px; color: var(--subtle); }
+
 .prob-bar-wrap {
-  height: 10px; background: #222; border-radius: 10px;
-  overflow: hidden; position: relative; display: flex;
+  height: 8px;
+  background: #0d0d0d;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
 }
 .prob-bar-ars {
-  height: 100%; background: #cc0000;
+  height: 100%;
+  background: var(--ars);
+  border-radius: 8px 0 0 8px;
   transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
 }
 .prob-bar-cit {
-  height: 100%; background: #5a9fd4; margin-left: auto;
+  height: 100%;
+  background: var(--cit);
+  border-radius: 0 8px 8px 0;
+  margin-left: auto;
   transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
 }
-.prob-sub { font-size: 11px; color: #444; text-align: center; margin-top: 6px; }
+.prob-sub { font-size: 10px; color: #333; text-align: center; margin-top: 8px; }
 
-/* SCENARIO BAR */
-.scenario-bar {
-  background: #1e1e1e; border-radius: 12px; padding: 16px 20px;
-  display: grid; grid-template-columns: 1fr auto 1fr;
-  gap: 12px; margin-bottom: 24px; align-items: center;
-}
-.scenario-stat { text-align: center; }
-.s-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-.s-val   { font-size: 26px; font-weight: 800; color: #fff; }
-.s-sub   { font-size: 11px; color: #666; margin-top: 2px; }
-.gap-divider { text-align: center; }
-.gap-num   { font-size: 30px; font-weight: 800; }
-.gap-sub   { font-size: 11px; color: #666; margin-top: 2px; }
-.gap-pos   { color: #4caf50; }
-.gap-neg   { color: #f44336; }
-.gap-zero  { color: #cddc39; }
-
-/* TABLE */
+/* ── SECTION LABEL ── */
 .section-label {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-  text-transform: uppercase; color: #555; margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  margin-top: 20px;
 }
-.table-wrap { background: #1e1e1e; border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
-.table-header {
-  display: grid;
-  grid-template-columns: 28px 1fr 36px 30px 30px 30px 46px 40px 52px;
-  padding: 10px 16px; font-size: 11px; color: #555; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.05em;
-  border-bottom: 1px solid #282828; gap: 0 4px;
+
+/* ── FIXTURES ── */
+.fixture-card {
+  background: var(--surface);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
-.team-row {
-  display: grid;
-  grid-template-columns: 28px 1fr 36px 30px 30px 30px 46px 40px 52px;
-  padding: 11px 16px; font-size: 13px; align-items: center;
-  border-bottom: 1px solid #252525; gap: 0 4px;
-  transition: background 0.4s;
+
+.fixture-card-header {
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
 }
-.team-row:last-child { border-bottom: none; }
-.team-row.ars-row { background: #1c0808; }
-.team-row.cit-row { background: #06101e; }
+.ars-header { background: #200808; color: var(--ars-dim); }
+.cit-header { background: #060e1c; color: var(--cit-dim); }
 
-@keyframes flashUp   { 0%,60%{ background:#0d3d1a; } 100%{ background:inherit; } }
-@keyframes flashDown { 0%,60%{ background:#3d0d0d; } 100%{ background:inherit; } }
-.flash-up   { animation: flashUp   0.7s ease forwards; }
-.flash-down { animation: flashDown 0.7s ease forwards; }
-
-.pos { color: #666; font-size: 12px; text-align: center; font-weight: 600; }
-.team-name { font-weight: 500; color: #e8e8e8; display: flex; align-items: center; gap: 8px; }
-.team-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.dot-ars   { background: #ee0024; }
-.dot-cit   { background: #6cabdd; }
-.dot-other { background: #444; }
-.stat     { text-align: center; color: #bbb; }
-.stat.pts { font-weight: 700; color: #fff; font-size: 15px; }
-.stat.gd  { color: #999; }
-.champ-badge {
-  display:none; font-size:10px; padding:2px 7px; border-radius:20px;
-  margin-left:6px; font-weight:700;
+.fixture-row {
+  padding: 14px 16px;
+  border-bottom: 1px solid #1e1e1e;
 }
-.champ-badge.show { display:inline-block; }
-.ars-champ { background:#a50000; color:#fff; }
-.cit-champ { background:#5a9fd4; color:#001830; }
-.table-ellipsis { padding:7px 16px; font-size:11px; color:#333; letter-spacing:0.05em; }
+.fixture-row:last-child { border-bottom: none; }
 
-/* FIXTURES */
-.fixtures-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-@media(max-width:580px){ .fixtures-grid{ grid-template-columns:1fr; } }
-.team-fixtures { background:#1e1e1e; border-radius:12px; overflow:hidden; }
-.tfh { padding:12px 16px; font-size:13px; font-weight:700; display:flex; align-items:center; gap:8px; border-bottom:1px solid #282828; }
-.ars-header { background:#250a0a; color:#ff6b6b; }
-.cit-header { background:#060f1c; color:#6cabdd; }
+.fix-meta {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
 
-.fixture-row { padding:12px 16px; border-bottom:1px solid #252525; }
-.fixture-row:last-child { border-bottom:none; }
-.fixture-meta { font-size:10px; color:#555; margin-bottom:7px; text-transform:uppercase; letter-spacing:0.05em; }
-.fixture-teams { display:flex; align-items:center; justify-content:space-between; gap:6px; }
-.ft-name { font-size:12px; color:#ccc; flex:1; }
-.ft-name.right { text-align:right; }
-.ft-name.bold  { font-weight:700; color:#e8e8e8; }
-.score-inputs  { display:flex; align-items:center; gap:4px; flex-shrink:0; }
-.score-group   {
-  display:flex; align-items:center;
-  background:#141414; border:1px solid #333; border-radius:8px; overflow:hidden;
+.fix-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.fix-name {
+  font-size: 13px;
+  color: #bbb;
+  flex: 1;
+  line-height: 1.3;
+}
+.fix-name.bold { font-weight: 700; color: #fff; }
+.fix-name.right { text-align: right; }
+
+/* BIG TAP TARGETS */
+.score-inputs { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.score-group {
+  display: flex;
+  align-items: center;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .score-btn {
-  width:26px; height:32px; background:transparent; border:none; color:#777;
-  font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
-  transition:background 0.1s,color 0.1s; line-height:1; padding-bottom:1px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s, color 0.1s;
+  -webkit-user-select: none; user-select: none;
 }
-.score-btn:hover { background:#252525; color:#fff; }
-.score-display {
-  width:30px; height:32px; text-align:center; font-size:15px; font-weight:700; color:#fff;
-  background:transparent; border:none; border-left:1px solid #333; border-right:1px solid #333;
-  outline:none; -moz-appearance:textfield;
+.score-btn:active { background: #2a2a2a; color: #fff; }
+.score-val {
+  width: 36px;
+  height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  cursor: default;
+  -webkit-user-select: none; user-select: none;
 }
-.score-display::-webkit-outer-spin-button,
-.score-display::-webkit-inner-spin-button { -webkit-appearance:none; }
-.score-sep { font-size:13px; color:#444; padding:0 3px; font-weight:700; }
-.fix-bottom { display:flex; justify-content:space-between; align-items:center; margin-top:6px; flex-wrap:wrap; gap:4px; }
-.result-pill { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; text-transform:uppercase; }
-.pill-w    { background:#0d2e0d; color:#4caf50; }
-.pill-d    { background:#2a2a0d; color:#cddc39; }
-.pill-l    { background:#2e0d0d; color:#f44336; }
-.pill-none { background:#222;    color:#555; }
-.match-odds { display:flex; gap:5px; }
-.odd-pill {
-  font-size:10px; padding:2px 7px; border-radius:4px; font-weight:600;
-  background:#252525; color:#666; border:1px solid #333;
-}
-.odd-w { background:#0d2e0d; color:#4caf50; border-color:#2a5a2a; }
-.odd-d { background:#2a2a0d; color:#cddc39; border-color:#4a4a1a; }
-.odd-l { background:#2e0d0d; color:#f44336; border-color:#5a1a1a; }
+.score-val.empty { color: #444; font-size: 14px; font-weight: 400; }
+.score-sep { font-size: 16px; color: #444; font-weight: 700; }
 
-.note { font-size:11px; color:#444; text-align:center; margin-top:8px; line-height:1.7; }
+.fix-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.pill-w    { background: #0d2e0d; color: #4caf50; }
+.pill-d    { background: #2a2a0d; color: #cddc39; }
+.pill-l    { background: #2e0d0d; color: #f44336; }
+.pill-none { background: #1e1e1e; color: #444; }
+
+.match-odds { display: flex; gap: 5px; }
+.odd-pill {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  background: #1e1e1e;
+  color: #555;
+  border: 1px solid #2a2a2a;
+}
+.odd-w { background: #0d2e0d; color: #4caf50; border-color: #1a4a1a; }
+.odd-d { background: #2a2a0d; color: #cddc39; border-color: #3a3a14; }
+.odd-l { background: #2e0d0d; color: #f44336; border-color: #4a1a1a; }
+
+/* ── FLASH ANIMATIONS ── */
+@keyframes flashUp   { 0%,55%{ background:#0a3018; } 100%{ background:transparent; } }
+@keyframes flashDown { 0%,55%{ background:#300a0a; } 100%{ background:transparent; } }
+.flash-up   { animation: flashUp   0.8s ease forwards; }
+.flash-down { animation: flashDown 0.8s ease forwards; }
+
+/* ── RESET ── */
+.reset-row {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+.reset-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 12px 32px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s;
+  width: 100%;
+  max-width: 300px;
+}
+.reset-btn:active { background: var(--surface2); color: #fff; }
+
+.note {
+  font-size: 10px;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.8;
+  padding: 0 8px;
+}
+
+/* ── DESKTOP TWEAKS ── */
+@media (min-width: 600px) {
+  .content { max-width: 480px; margin: 0 auto; padding: 20px 20px 0; }
+  .sticky-banner { justify-content: center; }
+  .sticky-banner > * { max-width: 480px; }
+  .score-btn { width: 36px; height: 40px; }
+  .score-val { height: 40px; }
+}
 </style>
 </head>
 <body>
-<div class="app">
 
-  <div class="header">
-    <div class="pl-badge">&#9917;</div>
-    <div class="header-text">
-      <h1>Premier League 2024/25 — Title Race Simulator</h1>
-      <p>Adjust scorelines to see the table, probabilities and title odds update live</p>
+<!-- STICKY BANNER -->
+<div class="sticky-banner" id="stickyBanner">
+  <div class="banner-team">
+    <span class="banner-team-name ars">Arsenal</span>
+    <span class="banner-pts" id="bannerArspts">76</span>
+    <span class="banner-gd" id="bannerArsgd">GD +41</span>
+  </div>
+  <div class="banner-mid">
+    <div class="banner-pos-row">
+      <span class="pos-badge ars" id="bannerArsPos">1</span>
+      <span class="pos-badge cit" id="bannerCitPos">2</span>
     </div>
-    <button class="reset-btn" onclick="resetAll()">&#8635; Reset</button>
+    <div class="banner-gap gap-pos" id="bannerGap">+5</div>
+    <div class="banner-gap-label" id="bannerGapLbl">Arsenal lead</div>
   </div>
-
-  <div class="title-banner" id="titleBanner">
-    <span class="trophy-icon">&#127942;</span>
-    <span id="titleText"></span>
+  <div class="banner-team right">
+    <span class="banner-team-name cit">Man City</span>
+    <span class="banner-pts" id="bannerCitpts">71</span>
+    <span class="banner-gd" id="bannerCitgd">GD +37</span>
   </div>
+</div>
 
+<!-- TITLE BANNER -->
+<div class="title-banner" id="titleBanner">
+  <span class="trophy-icon">&#127942;</span>
+  <span id="titleText"></span>
+</div>
+
+<div class="content">
+
+  <!-- PROB -->
   <div class="prob-section">
-    <div class="prob-label-row">
-      <div>
-        <div class="prob-team ars">Arsenal</div>
-        <div class="prob-pct ars" id="arsProbPct">—</div>
+    <div class="prob-header">
+      <div class="prob-side">
+        <span class="prob-team-lbl ars">Arsenal</span>
+        <span class="prob-pct ars" id="arsProbPct">—</span>
       </div>
-      <div class="prob-middle">
-        <div style="font-size:11px;color:#555;margin-bottom:4px">Title probability</div>
-        <div style="font-size:11px;color:#444" id="drawProbPct">calculating…</div>
+      <div class="prob-center">
+        <span class="prob-title">Title probability</span>
+        <span class="prob-tie" id="drawProbPct">calculating…</span>
       </div>
-      <div style="text-align:right">
-        <div class="prob-team cit">Man City</div>
-        <div class="prob-pct cit" id="citProbPct">—</div>
+      <div class="prob-side right">
+        <span class="prob-team-lbl cit">Man City</span>
+        <span class="prob-pct cit" id="citProbPct">—</span>
       </div>
     </div>
     <div class="prob-bar-wrap">
       <div class="prob-bar-ars" id="probBarArs" style="width:0%"></div>
       <div class="prob-bar-cit" id="probBarCit" style="width:0%"></div>
     </div>
-    <div class="prob-sub">Monte Carlo simulation · 60 000 runs · pre-match bookmaker odds per fixture · updates live</div>
+    <div class="prob-sub">Monte Carlo · 60k runs · bookmaker odds per fixture · live</div>
   </div>
 
-  <div class="scenario-bar">
-    <div class="scenario-stat">
-      <div class="s-label">Arsenal</div>
-      <div class="s-val" id="arsTotal">76</div>
-      <div class="s-sub">projected pts</div>
-    </div>
-    <div class="gap-divider">
-      <div class="gap-num gap-pos" id="gapVal">+5</div>
-      <div class="gap-sub" id="gapSub">Arsenal lead</div>
-    </div>
-    <div class="scenario-stat">
-      <div class="s-label">Man City</div>
-      <div class="s-val" id="cityTotal">71</div>
-      <div class="s-sub">projected pts</div>
-    </div>
-  </div>
+  <!-- ARSENAL FIXTURES -->
+  <div class="section-label">Arsenal fixtures</div>
+  <div id="arsenalFixtures"></div>
 
-  <div class="section-label">Live standings</div>
-  <div class="table-wrap">
-    <div class="table-header">
-      <span>#</span><span>Club</span>
-      <span style="text-align:center">PL</span>
-      <span style="text-align:center">W</span>
-      <span style="text-align:center">D</span>
-      <span style="text-align:center">L</span>
-      <span style="text-align:center">GD</span>
-      <span style="text-align:center">GF</span>
-      <span style="text-align:center">PTS</span>
-    </div>
-    <div id="tableBody"></div>
-  </div>
+  <!-- CITY FIXTURES -->
+  <div class="section-label">Man City fixtures</div>
+  <div id="cityFixtures"></div>
 
-  <div class="section-label">Fixtures — enter results</div>
-  <div class="fixtures-grid">
-    <div class="team-fixtures">
-      <div class="tfh ars-header">
-        <span style="width:9px;height:9px;background:#ee0024;border-radius:50%;display:inline-block"></span>
-        Arsenal · 3 games
-      </div>
-      <div id="arsenalFixtures"></div>
-    </div>
-    <div class="team-fixtures">
-      <div class="tfh cit-header">
-        <span style="width:9px;height:9px;background:#6cabdd;border-radius:50%;display:inline-block"></span>
-        Man City · 4 games
-      </div>
-      <div id="cityFixtures"></div>
-    </div>
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetAll()">&#8635; Reset all results</button>
   </div>
 
   <p class="note">
-    Pre-match odds: Bet365 / William Hill · GD then GF tiebreaker applied after points<br>
-    City have 4 remaining PL games · Arsenal have 3 · Base data: GW35
+    Pre-match odds: Bet365 / William Hill · GD then GF tiebreaker<br>
+    City: 4 remaining PL games · Arsenal: 3 · Base data: GW35
   </p>
+
 </div>
 
 <script>
@@ -282,7 +434,6 @@ const BASE = {
   city:    { pts:71, w:21, d:8,  l:5,  gf:69, ga:32, played:34 }
 };
 
-// odds = [home_win, draw, away_win] decimal, venue perspective
 const ARS_FIX = [
   { gw:36, home:false, opp:'West Ham',       date:'Sun 11 May', odds:[2.50,3.40,2.80] },
   { gw:37, home:true,  opp:'Burnley',        date:'Mon 19 May', odds:[1.22,6.50,13.0] },
@@ -295,24 +446,10 @@ const CIT_FIX = [
   { gw:38, home:true,  opp:'Aston Villa',    date:'Sun 25 May', odds:[1.55,4.00,6.00] }
 ];
 const OTHERS = [
-  { name:'Man United',    pts:64,w:18,d:10,l:7, gf:63,ga:48,played:35 },
-  { name:'Liverpool',     pts:58,w:17,d:7, l:11,gf:59,ga:47,played:35 },
-  { name:'Aston Villa',   pts:58,w:17,d:7, l:11,gf:48,ga:44,played:35 },
-  { name:'Bournemouth',   pts:52,w:12,d:16,l:7, gf:55,ga:52,played:35 },
-  { name:'Brentford',     pts:51,w:14,d:9, l:12,gf:52,ga:46,played:35 },
-  { name:'Brighton',      pts:50,w:13,d:11,l:11,gf:49,ga:42,played:35 },
-  { name:'Chelsea',       pts:48,w:13,d:9, l:13,gf:54,ga:48,played:35 },
-  { name:'Everton',       pts:48,w:13,d:9, l:13,gf:44,ga:44,played:35 },
-  { name:'Fulham',        pts:48,w:14,d:6, l:15,gf:44,ga:49,played:35 },
-  { name:'Sunderland',    pts:47,w:12,d:11,l:12,gf:37,ga:46,played:35 },
-  { name:'Newcastle',     pts:45,w:13,d:6, l:16,gf:49,ga:51,played:35 },
-  { name:'Wolves',        pts:40,w:11,d:7, l:17,gf:41,ga:55,played:35 },
-  { name:'Tottenham',     pts:38,w:10,d:8, l:17,gf:47,ga:58,played:35 },
-  { name:'West Ham',      pts:35,w:9, d:8, l:18,gf:38,ga:56,played:35 },
-  { name:'Crystal Palace',pts:34,w:8, d:10,l:17,gf:37,ga:56,played:35 },
-  { name:'Nottm Forest',  pts:34,w:9, d:7, l:19,gf:38,ga:62,played:35 },
-  { name:'Leicester',     pts:26,w:6, d:8, l:21,gf:33,ga:65,played:35 },
-  { name:'Burnley',       pts:22,w:5, d:7, l:23,gf:29,ga:72,played:35 }
+  { name:'Man United',    pts:64,gf:63,ga:48 },
+  { name:'Liverpool',     pts:58,gf:59,ga:47 },
+  { name:'Aston Villa',   pts:58,gf:48,ga:44 },
+  { name:'Bournemouth',   pts:52,gf:55,ga:52 }
 ];
 
 let arsScores  = ARS_FIX.map(()=>({home:null,away:null}));
@@ -320,13 +457,9 @@ let cityScores = CIT_FIX.map(()=>({home:null,away:null}));
 let prevLeader = 'arsenal';
 
 function norm(odds){ const s=odds.reduce((a,b)=>a+1/b,0); return odds.map(o=>(1/o)/s); }
+function fixtureWDL(fix,isHome){ const p=norm(fix.odds); return isHome?[p[0],p[1],p[2]]:[p[2],p[1],p[0]]; }
 
-function fixtureWDL(fix, isHome){
-  const p = norm(fix.odds);
-  return isHome ? [p[0],p[1],p[2]] : [p[2],p[1],p[0]];
-}
-
-function calcStats(base, scores, fixes){
+function calcStats(base,scores,fixes){
   let {pts,w,d,l,gf,ga,played}=Object.assign({},base);
   scores.forEach((sc,i)=>{
     if(sc.home===null||sc.away===null) return;
@@ -349,6 +482,8 @@ function cmp(a,b){
   if(b.gd!==a.gd)  return b.gd-a.gd;
   return b.gf-a.gf;
 }
+
+function arsAbove(ars,cit){ return cmp(ars,cit)<0; }
 
 function monteCarlo(ars,cit,N=60000){
   const aFix=ARS_FIX.map((f,i)=>arsScores[i].home!==null?null:fixtureWDL(f,f.home));
@@ -382,35 +517,61 @@ function monteCarlo(ars,cit,N=60000){
   return {ars:av/N,cit:cv/N,draw:dv/N};
 }
 
+function getLeader(ars,cit){
+  if(arsAbove(ars,cit)) return 'arsenal';
+  if(arsAbove(cit,ars)) return 'city';
+  return 'draw';
+}
+
 function refresh(){
   const ars=calcStats(BASE.arsenal,arsScores,ARS_FIX);
   const cit=calcStats(BASE.city,cityScores,CIT_FIX);
-  const sorted=[
-    {name:'Arsenal', ...ars, isArs:true, isCit:false},
-    {name:'Man City',...cit, isArs:false,isCit:true},
-    ...OTHERS.map(t=>({...t,gd:t.gf-t.ga,isArs:false,isCit:false}))
-  ].sort(cmp);
+  const newLeader=getLeader(ars,cit);
+  const swapped=newLeader!==prevLeader&&newLeader!=='draw'&&prevLeader!=='draw';
+  prevLeader=newLeader;
 
-  const newLeader = sorted[0].isArs?'arsenal':sorted[0].isCit?'city':'other';
-  const swapped   = newLeader!==prevLeader && (newLeader==='arsenal'||newLeader==='city') && (prevLeader==='arsenal'||prevLeader==='city');
-  prevLeader = newLeader;
-
+  updateBanner(ars,cit,newLeader,swapped);
   updateProb(ars,cit);
-  updateGap(ars,cit);
-  renderTable(sorted,ars,cit,swapped,newLeader);
+  updateTitleBanner(ars,cit,newLeader);
   renderFixtures();
+}
+
+function updateBanner(ars,cit,leader,swapped){
+  const gap=ars.pts-cit.pts;
+  document.getElementById('bannerArspts').textContent=ars.pts;
+  document.getElementById('bannerCitpts').textContent=cit.pts;
+  document.getElementById('bannerArsgd').textContent='GD '+(ars.gd>=0?'+':'')+ars.gd;
+  document.getElementById('bannerCitgd').textContent='GD '+(cit.gd>=0?'+':'')+cit.gd;
+
+  // positions
+  const arsPos = leader==='arsenal'?1:2;
+  const citPos = leader==='city'?1:2;
+  document.getElementById('bannerArsPos').textContent=arsPos;
+  document.getElementById('bannerCitPos').textContent=citPos;
+
+  const gapEl=document.getElementById('bannerGap');
+  gapEl.textContent=(gap>0?'+':'')+gap;
+  gapEl.className='banner-gap '+(gap>0?'gap-pos':gap<0?'gap-neg':'gap-zero');
+  document.getElementById('bannerGapLbl').textContent=gap>0?'Arsenal lead':gap<0?'City lead':'Level';
+
+  if(swapped){
+    const banner=document.getElementById('stickyBanner');
+    banner.classList.remove('flash-up','flash-down');
+    void banner.offsetWidth;
+    banner.classList.add(leader==='city'?'flash-down':'flash-up');
+    setTimeout(()=>banner.classList.remove('flash-up','flash-down'),900);
+  }
 }
 
 function updateProb(ars,cit){
   const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
   let ap,cp,dp;
   if(allDone){
-    const aTop=cmp(ars,cit)<0;
-    const tie =cmp(ars,cit)===0;
-    ap=tie?0:aTop?1:0; cp=tie?0:aTop?0:1; dp=tie?1:0;
+    const al=arsAbove(ars,cit), cl=arsAbove(cit,ars);
+    ap=al?1:0; cp=cl?1:0; dp=(!al&&!cl)?1:0;
   } else {
     const mc=monteCarlo(ars,cit);
-    ap=mc.ars;cp=mc.cit;dp=mc.draw;
+    ap=mc.ars; cp=mc.cit; dp=mc.draw;
   }
   document.getElementById('arsProbPct').textContent=Math.round(ap*100)+'%';
   document.getElementById('citProbPct').textContent=Math.round(cp*100)+'%';
@@ -419,115 +580,74 @@ function updateProb(ars,cit){
   document.getElementById('probBarCit').style.width=Math.round(cp*100)+'%';
 }
 
-function updateGap(ars,cit){
-  const gap=ars.pts-cit.pts;
-  document.getElementById('arsTotal').textContent=ars.pts;
-  document.getElementById('cityTotal').textContent=cit.pts;
-  const el=document.getElementById('gapVal');
-  el.textContent=(gap>0?'+':'')+gap;
-  el.className='gap-num '+(gap>0?'gap-pos':gap<0?'gap-neg':'gap-zero');
-  document.getElementById('gapSub').textContent=gap>0?'Arsenal lead':gap<0?'City lead':'Level';
-}
-
-function renderTable(sorted,ars,cit,swapped,leader){
+function updateTitleBanner(ars,cit,leader){
   const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
-  const arsPos=sorted.findIndex(r=>r.isArs);
-  const citPos=sorted.findIndex(r=>r.isCit);
-  const topIdx=Math.min(arsPos,citPos);
-  const winner=sorted[topIdx].isArs?'arsenal':sorted[topIdx].isCit?'city':'other';
-
-  const banner=document.getElementById('titleBanner');
-  if(allDone&&winner!=='other'){
-    banner.className='title-banner show '+winner;
-    document.getElementById('titleText').textContent=
-      winner==='arsenal'?'Arsenal are Premier League Champions 2024/25!':
-      'Manchester City are Premier League Champions 2024/25!';
-  } else if(allDone){
-    banner.className='title-banner show draw';
-    document.getElementById('titleText').textContent='Tied on all tiebreakers — further criteria apply.';
-  } else {
-    banner.className='title-banner';
-  }
-
-  const tbody=document.getElementById('tableBody');
-  tbody.innerHTML='';
-  sorted.slice(0,6).forEach((t,i)=>{
-    const isWinner=allDone&&((t.isArs&&winner==='arsenal')||(t.isCit&&winner==='city'));
-    let rc=t.isArs?'team-row ars-row':t.isCit?'team-row cit-row':'team-row';
-    if(swapped&&t.isArs) rc+= leader==='arsenal'?' flash-up':' flash-down';
-    if(swapped&&t.isCit) rc+= leader==='city'   ?' flash-up':' flash-down';
-    const dc=t.isArs?'team-dot dot-ars':t.isCit?'team-dot dot-cit':'team-dot dot-other';
-    const badge=isWinner?`<span class="champ-badge show ${t.isArs?'ars-champ':'cit-champ'}">&#127942; Champions</span>`:'';
-    const gdStr=t.gd>=0?'+'+t.gd:t.gd;
-    tbody.innerHTML+=`
-      <div class="${rc}">
-        <span class="pos">${i+1}</span>
-        <span class="team-name"><span class="${dc}"></span>${t.name}${badge}</span>
-        <span class="stat">${t.played}</span>
-        <span class="stat">${t.w}</span>
-        <span class="stat">${t.d}</span>
-        <span class="stat">${t.l}</span>
-        <span class="stat gd">${gdStr}</span>
-        <span class="stat">${t.gf}</span>
-        <span class="stat pts">${t.pts}</span>
-      </div>`;
-  });
-  const ell=document.createElement('div');
-  ell.className='table-ellipsis';
-  ell.textContent='— positions 7–20 not shown —';
-  tbody.appendChild(ell);
+  const b=document.getElementById('titleBanner');
+  if(!allDone){ b.className='title-banner'; return; }
+  b.className='title-banner show '+leader;
+  document.getElementById('titleText').textContent=
+    leader==='arsenal'?'Arsenal are Premier League Champions 2024/25!':
+    leader==='city'   ?'Manchester City are Premier League Champions 2024/25!':
+    'Tied on all tiebreakers — further criteria apply.';
 }
 
 function renderFixtures(){
   document.getElementById('arsenalFixtures').innerHTML='';
   document.getElementById('cityFixtures').innerHTML='';
 
-  function row(sc,fix,idx,team){
+  function makeCard(sc,fix,idx,team){
     const ih=fix.home;
     const me=team==='ars'?'Arsenal':'Man City';
     const hn=ih?me:fix.opp, an=ih?fix.opp:me;
     const res=getResult(sc,ih);
-    const pill=res?`<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`
-                  :`<span class="result-pill pill-none">TBD</span>`;
     const wdl=fixtureWDL(fix,ih);
+
+    const pill=res
+      ?`<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`
+      :`<span class="result-pill pill-none">TBD</span>`;
+
     const oddsHtml=[
       {lbl:'W',p:wdl[0],ac:res==='W'?'odd-w':''},
       {lbl:'D',p:wdl[1],ac:res==='D'?'odd-d':''},
       {lbl:'L',p:wdl[2],ac:res==='L'?'odd-l':''}
     ].map(o=>`<span class="odd-pill ${o.ac}">${o.lbl} ${Math.round(o.p*100)}%</span>`).join('');
-    const hv=sc.home!==null?sc.home:'';
-    const av=sc.away!==null?sc.away:'';
+
+    const hv = sc.home!==null ? sc.home : null;
+    const av = sc.away!==null ? sc.away : null;
+    const hvDisp = hv!==null ? `<span class="score-val">${hv}</span>` : `<span class="score-val empty">–</span>`;
+    const avDisp = av!==null ? `<span class="score-val">${av}</span>` : `<span class="score-val empty">–</span>`;
+
     return `
-      <div class="fixture-row">
-        <div class="fixture-meta">GW${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
-        <div class="fixture-teams">
-          <span class="ft-name ${ih?'bold':''}">${hn}</span>
-          <div class="score-inputs">
-            <div class="score-group">
-              <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">&#8722;</button>
-              <input class="score-display" type="number" min="0" value="${hv}" placeholder="–"
-                oninput="setScore('${team}',${idx},'home',this.value)"/>
-              <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">+</button>
+      <div class="fixture-card">
+        <div class="fixture-row">
+          <div class="fix-meta">GW${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
+          <div class="fix-main">
+            <span class="fix-name ${ih?'bold':''}">${hn}</span>
+            <div class="score-inputs">
+              <div class="score-group">
+                <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">−</button>
+                ${hvDisp}
+                <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">+</button>
+              </div>
+              <span class="score-sep">–</span>
+              <div class="score-group">
+                <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">−</button>
+                ${avDisp}
+                <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">+</button>
+              </div>
             </div>
-            <span class="score-sep">–</span>
-            <div class="score-group">
-              <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">&#8722;</button>
-              <input class="score-display" type="number" min="0" value="${av}" placeholder="–"
-                oninput="setScore('${team}',${idx},'away',this.value)"/>
-              <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">+</button>
-            </div>
+            <span class="fix-name right ${!ih?'bold':''}">${an}</span>
           </div>
-          <span class="ft-name right ${!ih?'bold':''}">${an}</span>
-        </div>
-        <div class="fix-bottom">
-          ${pill}
-          <div class="match-odds">${oddsHtml}</div>
+          <div class="fix-bottom">
+            ${pill}
+            <div class="match-odds">${oddsHtml}</div>
+          </div>
         </div>
       </div>`;
   }
 
-  ARS_FIX.forEach((f,i)=>{ document.getElementById('arsenalFixtures').innerHTML+=row(arsScores[i],f,i,'ars'); });
-  CIT_FIX.forEach((f,i)=>{ document.getElementById('cityFixtures').innerHTML+=row(cityScores[i],f,i,'cit'); });
+  ARS_FIX.forEach((f,i)=>{ document.getElementById('arsenalFixtures').innerHTML+=makeCard(arsScores[i],f,i,'ars'); });
+  CIT_FIX.forEach((f,i)=>{ document.getElementById('cityFixtures').innerHTML+=makeCard(cityScores[i],f,i,'cit'); });
 }
 
 function adj(team,idx,side,delta){
@@ -537,15 +657,6 @@ function adj(team,idx,side,delta){
   sc[idx][side]=Math.max(0,sc[idx][side]+delta);
   const other=side==='home'?'away':'home';
   if(sc[idx][other]===null) sc[idx][other]=0;
-  refresh();
-}
-
-function setScore(team,idx,side,val){
-  const sc=team==='ars'?arsScores:cityScores;
-  const n=parseInt(val);
-  sc[idx][side]=isNaN(n)?null:Math.max(0,n);
-  const other=side==='home'?'away':'home';
-  if(sc[idx][side]!==null&&sc[idx][other]===null) sc[idx][other]=0;
   refresh();
 }
 
