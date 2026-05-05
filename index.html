@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Hvem faen vinner PL?</title>
 <style>
-:root{--ars:#ee0024;--ars-dim:#ff6b6b;--cit:#6cabdd;--bg:#111;--surface:#1a1a1a;--border:#2a2a2a;--text:#e8e8e8;--muted:#666;}
+:root{--ars:#ee0024;--ars-dim:#ff6b6b;--cit:#6cabdd;--bg:#111;--surface:#1a1a1a;--border:#2a2a2a;--muted:#666;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding-bottom:48px;}
+body{background:var(--bg);color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding-bottom:48px;}
 
 .top-header{background:#0d0d0d;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1e1e1e;}
 .logo-gif{width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid #2a2a2a;}
-.top-title{font-size:17px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-0.01em;text-transform:uppercase;}
+.top-title{font-size:17px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-0.01em;}
 .top-sub{font-size:11px;color:var(--muted);margin-top:2px;}
 
 .sticky-banner{position:sticky;top:0;z-index:100;background:rgba(13,13,13,0.97);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;backdrop-filter:blur(12px);}
@@ -33,9 +33,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 .title-banner{display:none;align-items:center;gap:12px;padding:14px 16px;font-weight:700;font-size:14px;line-height:1.4;}
 .title-banner.show{display:flex;}
-.title-banner.arsenal{background:#5a0000;color:#fff;border-bottom:1px solid #a00;}
-.title-banner.city{background:#001e3d;color:#fff;border-bottom:1px solid #4a8abf;}
-.title-banner.draw{background:#1e1e1e;color:#fff;border-bottom:1px solid #444;}
+.title-banner.a{background:#5a0000;color:#fff;border-bottom:1px solid #a00;}
+.title-banner.c{background:#001e3d;color:#fff;border-bottom:1px solid #4a8abf;}
+.title-banner.d{background:#1e1e1e;color:#fff;border-bottom:1px solid #444;}
 
 .content{padding:14px 14px 0;max-width:480px;margin:0 auto;}
 
@@ -59,20 +59,23 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 .sec-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
 
-.fcard{background:var(--surface);border-radius:14px;margin-bottom:8px;padding:14px;}
-.fmeta{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
+/* FIXTURE CARD - vertical layout, names clearly separated */
+.fcard{background:var(--surface);border-radius:14px;margin-bottom:8px;overflow:hidden;}
+.fcard-inner{padding:14px;}
+.fmeta{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;}
 
-.frow{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
-.fname{flex:1;font-size:14px;color:#bbb;line-height:1.2;min-width:0;}
+/* Score row: name — stepper — vs — stepper — name */
+.fmatch{display:grid;grid-template-columns:1fr auto auto auto 1fr;align-items:center;gap:8px;margin-bottom:10px;}
+.fname{font-size:14px;color:#bbb;line-height:1.2;}
 .fname.bold{font-weight:700;color:#fff;}
 .fname.r{text-align:right;}
+.svs{font-size:14px;color:#333;font-weight:700;text-align:center;}
 
-.stepper{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:10px;overflow:hidden;flex-shrink:0;}
-.sbtn{width:42px;height:46px;background:transparent;border:none;color:#777;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
+.stepper{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:10px;overflow:hidden;}
+.sbtn{width:40px;height:46px;background:transparent;border:none;color:#777;font-size:21px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
 .sbtn:active{background:#2a2a2a;color:#fff;}
-.sval{width:38px;height:46px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;border-left:1px solid #2a2a2a;border-right:1px solid #2a2a2a;-webkit-user-select:none;user-select:none;}
-.sval.e{color:#383838;font-size:15px;font-weight:400;}
-.svs{font-size:13px;color:#333;font-weight:700;flex-shrink:0;}
+.sval{width:36px;height:46px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border-left:1px solid #2a2a2a;border-right:1px solid #2a2a2a;-webkit-user-select:none;user-select:none;}
+.sval.e{color:#383838;font-size:14px;font-weight:400;}
 
 .fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;}
 .rpill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:7px;text-transform:uppercase;}
@@ -125,7 +128,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
-<div class="title-banner" id="tb"><span style="font-size:28px;flex-shrink:0">&#127942;</span><span id="tt"></span></div>
+<div class="title-banner" id="tb">
+  <span style="font-size:28px;flex-shrink:0">&#127942;</span>
+  <span id="tt"></span>
+</div>
 
 <div class="content">
   <div class="prob-box">
@@ -155,7 +161,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="sec-lbl">Man Citys kamper</div>
   <div id="cf"></div>
 
-  <div class="reset-row"><button class="rbtn" onclick="reset()">&#8635; Nullstill alle resultater</button></div>
+  <div class="reset-row">
+    <button class="rbtn" onclick="doReset()">&#8635; Nullstill alle resultater</button>
+  </div>
   <p class="note">Odds: Bet365 / William Hill · MF, deretter mål som tiebreaker<br>City: 4 kamper igjen · Arsenal: 3 · Grunndata: SR35</p>
 </div>
 
@@ -178,28 +186,23 @@ let prev='a';
 
 function norm(o){const s=o.reduce((a,b)=>a+1/b,0);return o.map(v=>(1/v)/s);}
 function wdl(f,ih){const p=norm(f.odds);return ih?[p[0],p[1],p[2]]:[p[2],p[1],p[0]];}
-
 function calc(base,sc,fx){
   let{pts,w,d,l,gf,ga,pl}=Object.assign({},base);
   sc.forEach((s,i)=>{
     if(s.h===null||s.a===null)return;
-    pl++;
-    const ih=fx[i].h,tg=ih?s.h:s.a,og=ih?s.a:s.h;
+    pl++;const ih=fx[i].h,tg=ih?s.h:s.a,og=ih?s.a:s.h;
     gf+=tg;ga+=og;
     if(tg>og){pts+=3;w++;}else if(tg===og){pts+=1;d++;}else l++;
   });
   return{pts,w,d,l,gf,ga,gd:gf-ga,pl};
 }
-
-function res(s,ih){
+function getRes(s,ih){
   if(s.h===null||s.a===null)return null;
   const tg=ih?s.h:s.a,og=ih?s.a:s.h;
   return tg>og?'V':tg===og?'U':'T';
 }
-
 function cmp(a,b){if(b.pts!==a.pts)return b.pts-a.pts;if(b.gd!==a.gd)return b.gd-a.gd;return b.gf-a.gf;}
-
-function mc(av,cv,N=60000){
+function mcSim(av,cv,N=60000){
   const af=AF.map((f,i)=>as[i].h!==null?null:wdl(f,f.h));
   const cf=CF.map((f,i)=>cs[i].h!==null?null:wdl(f,f.h));
   let a=0,c=0,d=0;
@@ -211,21 +214,13 @@ function mc(av,cv,N=60000){
   }
   return{a:a/N,c:c/N,d:d/N};
 }
-
 function leader(av,cv){return cmp(av,cv)<0?'a':cmp(cv,av)<0?'c':'d';}
-
 function refresh(){
-  const av=calc(BASE.a,as,AF);
-  const cv=calc(BASE.c,cs,CF);
-  const nl=leader(av,cv);
-  const sw=nl!==prev&&nl!=='d'&&prev!=='d';
+  const av=calc(BASE.a,as,AF),cv=calc(BASE.c,cs,CF);
+  const nl=leader(av,cv),sw=nl!==prev&&nl!=='d'&&prev!=='d';
   prev=nl;
-  updateBanner(av,cv,nl,sw);
-  updateProb(av,cv);
-  updateTitle(av,cv,nl);
-  render();
+  updateBanner(av,cv,nl,sw);updateProb(av,cv);updateTitle(av,cv,nl);render();
 }
-
 function updateBanner(av,cv,nl,sw){
   const gap=av.pts-cv.pts;
   document.getElementById('bap').textContent=av.pts;
@@ -238,26 +233,19 @@ function updateBanner(av,cv,nl,sw){
   g.textContent=(gap>0?'+':'')+gap;
   g.className='bm-gap '+(gap>0?'gp':gap<0?'gn':'gz');
   document.getElementById('blbl').textContent=gap>0?'Arsenal leder':gap<0?'City leder':'Likt';
-  if(sw){
-    const b=document.getElementById('sb');
-    b.classList.remove('fu','fd');void b.offsetWidth;
-    b.classList.add(nl==='c'?'fd':'fu');
-    setTimeout(()=>b.classList.remove('fu','fd'),900);
-  }
+  if(sw){const b=document.getElementById('sb');b.classList.remove('fu','fd');void b.offsetWidth;b.classList.add(nl==='c'?'fd':'fu');setTimeout(()=>b.classList.remove('fu','fd'),900);}
 }
-
 function updateProb(av,cv){
   const done=as.every(s=>s.h!==null)&&cs.every(s=>s.h!==null);
   let a,c,d;
   if(done){const al=cmp(av,cv)<0,cl=cmp(cv,av)<0;a=al?1:0;c=cl?1:0;d=(!al&&!cl)?1:0;}
-  else{const m=mc(av,cv);a=m.a;c=m.c;d=m.d;}
+  else{const m=mcSim(av,cv);a=m.a;c=m.c;d=m.d;}
   document.getElementById('ap').textContent=Math.round(a*100)+'%';
   document.getElementById('cp').textContent=Math.round(c*100)+'%';
   document.getElementById('dp').textContent='Uavgjort: '+Math.round(d*100)+'%';
   document.getElementById('pba').style.width=Math.round(a*100)+'%';
   document.getElementById('pbc').style.width=Math.round(c*100)+'%';
 }
-
 function updateTitle(av,cv,nl){
   const done=as.every(s=>s.h!==null)&&cs.every(s=>s.h!==null);
   const b=document.getElementById('tb');
@@ -268,24 +256,21 @@ function updateTitle(av,cv,nl){
     nl==='c'?'Manchester City er Premier League-mestere 2024/25!':
     'Likt på alle tiebreakere — videre kriterier gjelder.';
 }
-
 function render(){
   document.getElementById('af').innerHTML='';
   document.getElementById('cf').innerHTML='';
-
   function card(sc,fx,idx,team){
     const ih=fx.h,me=team==='a'?'Arsenal':'Man City';
-    const hn=ih?me:fx.o, an=ih?fx.o:me;
-    const r=res(sc,ih);
-    const w=wdl(fx,ih);
+    const hn=ih?me:fx.o,an=ih?fx.o:me;
+    const r=getRes(sc,ih),w=wdl(fx,ih);
     const pill=r?`<span class="rpill ${r==='V'?'rw':r==='U'?'rd':'rl'}">${r}</span>`:`<span class="rpill rn">TBD</span>`;
     const odds=[{l:'V',p:w[0],c:r==='V'?'ow':''},{l:'U',p:w[1],c:r==='U'?'od':''},{l:'T',p:w[2],c:r==='T'?'ol':''}]
       .map(o=>`<span class="opill ${o.c}">${o.l} ${Math.round(o.p*100)}%</span>`).join('');
     const hv=sc.h!==null?`<span class="sval">${sc.h}</span>`:`<span class="sval e">–</span>`;
     const av=sc.a!==null?`<span class="sval">${sc.a}</span>`:`<span class="sval e">–</span>`;
-    return `<div class="fcard">
+    return `<div class="fcard"><div class="fcard-inner">
       <div class="fmeta">SR${fx.gw} &nbsp;·&nbsp; ${fx.dt}</div>
-      <div class="frow">
+      <div class="fmatch">
         <span class="fname ${ih?'bold':''}">${hn}</span>
         <div class="stepper">
           <button class="sbtn" onclick="adj('${team}',${idx},'h',-1)">−</button>${hv}<button class="sbtn" onclick="adj('${team}',${idx},'h',1)">+</button>
@@ -297,13 +282,11 @@ function render(){
         <span class="fname r ${!ih?'bold':''}">${an}</span>
       </div>
       <div class="fbot">${pill}<div class="odds">${odds}</div></div>
-    </div>`;
+    </div></div>`;
   }
-
   AF.forEach((f,i)=>{document.getElementById('af').innerHTML+=card(as[i],f,i,'a');});
   CF.forEach((f,i)=>{document.getElementById('cf').innerHTML+=card(cs[i],f,i,'c');});
 }
-
 function adj(team,idx,side,delta){
   const sc=team==='a'?as:cs;
   if(sc[idx][side]===null&&delta<0)return;
@@ -313,13 +296,11 @@ function adj(team,idx,side,delta){
   if(sc[idx][other]===null)sc[idx][other]=0;
   refresh();
 }
-
-function reset(){
+function doReset(){
   as=AF.map(()=>({h:null,a:null}));
   cs=CF.map(()=>({h:null,a:null}));
   prev='a';refresh();
 }
-
 refresh();
 </script>
 </body>
