@@ -5,18 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>PL Title Race 2024/25</title>
+<title>Hvem faen vinner PL?</title>
 <style>
 :root {
-  --ars: #ee0024; --ars-bg: #1c0808; --ars-dim: #ff6b6b;
-  --cit: #6cabdd; --cit-bg: #06101e; --cit-dim: #6cabdd;
+  --ars: #ee0024; --ars-dim: #ff6b6b;
+  --cit: #6cabdd; --cit-dim: #6cabdd;
   --bg: #111; --surface: #1a1a1a; --surface2: #222;
   --border: #2a2a2a; --text: #e8e8e8; --muted: #666; --subtle: #444;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 48px; }
 
-.sticky-banner { position: sticky; top: 0; z-index: 100; background: rgba(13,13,13,0.97); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.top-header {
+  background: #0d0d0d;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #1e1e1e;
+}
+.logo-gif {
+  width: 52px; height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #2a2a2a;
+}
+.top-header-text { display: flex; flex-direction: column; gap: 2px; }
+.top-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.top-sub { font-size: 11px; color: var(--muted); }
+
+.sticky-banner {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,13,0.97);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
 .banner-team { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .banner-team.right { align-items: flex-end; }
 .banner-team-name { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
@@ -61,14 +94,8 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; margin-top: 22px; }
 
 .fixture-card { background: var(--surface); border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
-.fixture-card-header { padding: 12px 16px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
-.ars-header { background: #200808; color: var(--ars-dim); }
-.cit-header { background: #060e1c; color: var(--cit-dim); }
-
 .fixture-row { padding: 16px; }
-
 .fix-meta { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
-
 .fix-teams-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
 .fix-name { font-size: 13px; color: #bbb; flex: 1; line-height: 1.3; }
 .fix-name.bold { font-weight: 700; color: #fff; }
@@ -102,18 +129,26 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 .flash-down { animation: flashDown 0.8s ease forwards; }
 
 .reset-row { margin-top: 28px; display: flex; justify-content: center; }
-.reset-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 14px 32px; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 500; width: 100%; max-width: 320px; transition: all 0.15s; }
+.reset-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 14px 32px; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 500; width: 100%; max-width: 320px; }
 .reset-btn:active { background: var(--surface2); color: #fff; }
 .note { font-size: 10px; color: #333; text-align: center; margin-top: 20px; line-height: 1.9; padding: 0 8px; }
 </style>
 </head>
 <body>
 
+<div class="top-header">
+  <img class="logo-gif" src="logo.gif" alt="logo">
+  <div class="top-header-text">
+    <div class="top-title">Hvem faen vinner PL?</div>
+    <div class="top-sub">Premier League 2024/25 &nbsp;·&nbsp; Simuler de siste kampene</div>
+  </div>
+</div>
+
 <div class="sticky-banner" id="stickyBanner">
   <div class="banner-team">
     <span class="banner-team-name ars">Arsenal</span>
     <span class="banner-pts" id="bannerArspts">76</span>
-    <span class="banner-gd" id="bannerArsgd">GD +41</span>
+    <span class="banner-gd" id="bannerArsgd">MF +41</span>
   </div>
   <div class="banner-mid">
     <div class="banner-pos-row">
@@ -121,12 +156,12 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
       <span class="pos-badge cit" id="bannerCitPos">2</span>
     </div>
     <div class="banner-gap gap-pos" id="bannerGap">+5</div>
-    <div class="banner-gap-label" id="bannerGapLbl">Arsenal lead</div>
+    <div class="banner-gap-label" id="bannerGapLbl">Arsenal leder</div>
   </div>
   <div class="banner-team right">
     <span class="banner-team-name cit">Man City</span>
     <span class="banner-pts" id="bannerCitpts">71</span>
-    <span class="banner-gd" id="bannerCitgd">GD +37</span>
+    <span class="banner-gd" id="bannerCitgd">MF +37</span>
   </div>
 </div>
 
@@ -143,8 +178,8 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
         <span class="prob-pct ars" id="arsProbPct">—</span>
       </div>
       <div class="prob-center">
-        <span class="prob-title">Title probability</span>
-        <span class="prob-tie" id="drawProbPct">calculating…</span>
+        <span class="prob-title">Tittel-sannsynlighet</span>
+        <span class="prob-tie" id="drawProbPct">beregner…</span>
       </div>
       <div class="prob-side right">
         <span class="prob-team-lbl cit">Man City</span>
@@ -155,19 +190,19 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
       <div class="prob-bar-ars" id="probBarArs" style="width:0%"></div>
       <div class="prob-bar-cit" id="probBarCit" style="width:0%"></div>
     </div>
-    <div class="prob-sub">Monte Carlo · 60k runs · bookmaker odds per fixture · updates live</div>
+    <div class="prob-sub">Monte Carlo · 60 000 simuleringer · bookmaker-odds per kamp · oppdateres live</div>
   </div>
 
-  <div class="section-label">Arsenal fixtures</div>
+  <div class="section-label">Arsenals kamper</div>
   <div id="arsenalFixtures"></div>
 
-  <div class="section-label">Man City fixtures</div>
+  <div class="section-label">Man Citys kamper</div>
   <div id="cityFixtures"></div>
 
   <div class="reset-row">
-    <button class="reset-btn" onclick="resetAll()">&#8635; Reset all results</button>
+    <button class="reset-btn" onclick="resetAll()">&#8635; Nullstill alle resultater</button>
   </div>
-  <p class="note">Pre-match odds: Bet365 / William Hill · GD then GF tiebreaker<br>City: 4 remaining PL games · Arsenal: 3 · Base data: GW35</p>
+  <p class="note">Odds: Bet365 / William Hill · Målforskjell, deretter mål scoret som tiebreaker<br>City: 4 gjenstående PL-kamper · Arsenal: 3 · Grunndata: SR35</p>
 </div>
 
 <script>
@@ -176,15 +211,15 @@ const BASE = {
   city:    { pts:71, w:21, d:8, l:5, gf:69, ga:32, played:34 }
 };
 const ARS_FIX = [
-  { gw:36, home:false, opp:'West Ham',       date:'Sun 11 May', odds:[2.50,3.40,2.80] },
-  { gw:37, home:true,  opp:'Burnley',        date:'Mon 19 May', odds:[1.22,6.50,13.0] },
-  { gw:38, home:false, opp:'Crystal Palace', date:'Sun 25 May', odds:[3.20,3.40,2.15] }
+  { gw:36, home:false, opp:'West Ham',       opp_no:'West Ham',       date:'Søn 11. mai', odds:[2.50,3.40,2.80] },
+  { gw:37, home:true,  opp:'Burnley',        opp_no:'Burnley',        date:'Man 19. mai', odds:[1.22,6.50,13.0] },
+  { gw:38, home:false, opp:'Crystal Palace', opp_no:'Crystal Palace', date:'Søn 25. mai', odds:[3.20,3.40,2.15] }
 ];
 const CIT_FIX = [
-  { gw:35, home:true,  opp:'Brentford',      date:'Sat 9 May',  odds:[1.40,5.00,8.00] },
-  { gw:36, home:true,  opp:'Crystal Palace', date:'Wed 13 May', odds:[1.30,5.50,10.0] },
-  { gw:37, home:false, opp:'Bournemouth',    date:'Tue 19 May', odds:[2.40,3.30,3.10] },
-  { gw:38, home:true,  opp:'Aston Villa',    date:'Sun 25 May', odds:[1.55,4.00,6.00] }
+  { gw:35, home:true,  opp:'Brentford',      opp_no:'Brentford',      date:'Lør 9. mai',  odds:[1.40,5.00,8.00] },
+  { gw:36, home:true,  opp:'Crystal Palace', opp_no:'Crystal Palace', date:'Ons 13. mai', odds:[1.30,5.50,10.0] },
+  { gw:37, home:false, opp:'Bournemouth',    opp_no:'Bournemouth',    date:'Tir 19. mai', odds:[2.40,3.30,3.10] },
+  { gw:38, home:true,  opp:'Aston Villa',    opp_no:'Aston Villa',    date:'Søn 25. mai', odds:[1.55,4.00,6.00] }
 ];
 let arsScores  = ARS_FIX.map(()=>({home:null,away:null}));
 let cityScores = CIT_FIX.map(()=>({home:null,away:null}));
@@ -208,7 +243,7 @@ function calcStats(base,scores,fixes){
 function getResult(sc,ih){
   if(sc.home===null||sc.away===null) return null;
   const tg=ih?sc.home:sc.away, og=ih?sc.away:sc.home;
-  return tg>og?'W':tg===og?'D':'L';
+  return tg>og?'V':tg===og?'U':'T';
 }
 
 function cmp(a,b){ if(b.pts!==a.pts)return b.pts-a.pts; if(b.gd!==a.gd)return b.gd-a.gd; return b.gf-a.gf; }
@@ -245,14 +280,14 @@ function updateBanner(ars,cit,leader,swapped){
   const gap=ars.pts-cit.pts;
   document.getElementById('bannerArspts').textContent=ars.pts;
   document.getElementById('bannerCitpts').textContent=cit.pts;
-  document.getElementById('bannerArsgd').textContent='GD '+(ars.gd>=0?'+':'')+ars.gd;
-  document.getElementById('bannerCitgd').textContent='GD '+(cit.gd>=0?'+':'')+cit.gd;
+  document.getElementById('bannerArsgd').textContent='MF '+(ars.gd>=0?'+':'')+ars.gd;
+  document.getElementById('bannerCitgd').textContent='MF '+(cit.gd>=0?'+':'')+cit.gd;
   document.getElementById('bannerArsPos').textContent=leader==='arsenal'?1:2;
   document.getElementById('bannerCitPos').textContent=leader==='city'?1:2;
   const gapEl=document.getElementById('bannerGap');
   gapEl.textContent=(gap>0?'+':'')+gap;
   gapEl.className='banner-gap '+(gap>0?'gap-pos':gap<0?'gap-neg':'gap-zero');
-  document.getElementById('bannerGapLbl').textContent=gap>0?'Arsenal lead':gap<0?'City lead':'Level';
+  document.getElementById('bannerGapLbl').textContent=gap>0?'Arsenal leder':gap<0?'City leder':'Likt';
   if(swapped){
     const b=document.getElementById('stickyBanner');
     b.classList.remove('flash-up','flash-down');
@@ -271,7 +306,7 @@ function updateProb(ars,cit){
   } else { const mc=monteCarlo(ars,cit); ap=mc.ars;cp=mc.cit;dp=mc.draw; }
   document.getElementById('arsProbPct').textContent=Math.round(ap*100)+'%';
   document.getElementById('citProbPct').textContent=Math.round(cp*100)+'%';
-  document.getElementById('drawProbPct').textContent='Tie: '+Math.round(dp*100)+'%';
+  document.getElementById('drawProbPct').textContent='Uavgjort: '+Math.round(dp*100)+'%';
   document.getElementById('probBarArs').style.width=Math.round(ap*100)+'%';
   document.getElementById('probBarCit').style.width=Math.round(cp*100)+'%';
 }
@@ -282,9 +317,9 @@ function updateTitleBanner(ars,cit,leader){
   if(!allDone){b.className='title-banner';return;}
   b.className='title-banner show '+leader;
   document.getElementById('titleText').textContent=
-    leader==='arsenal'?'Arsenal are Premier League Champions 2024/25!':
-    leader==='city'?'Manchester City are Premier League Champions 2024/25!':
-    'Tied on all tiebreakers — further criteria apply.';
+    leader==='arsenal'?'Arsenal er Premier League-mestere 2024/25!':
+    leader==='city'?'Manchester City er Premier League-mestere 2024/25!':
+    'Likt på alle tiebreakere — videre kriterier gjelder.';
 }
 
 function renderFixtures(){
@@ -293,21 +328,24 @@ function renderFixtures(){
 
   function card(sc,fix,idx,team){
     const ih=fix.home, me=team==='ars'?'Arsenal':'Man City';
-    const hn=ih?me:fix.opp, an=ih?fix.opp:me;
+    const hn=ih?me:fix.opp_no, an=ih?fix.opp_no:me;
     const res=getResult(sc,ih);
     const w=wdl(fix,ih);
-    const pill=res?`<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`:`<span class="result-pill pill-none">TBD</span>`;
-    const odds=[{l:'W',p:w[0],c:res==='W'?'odd-w':''},{l:'D',p:w[1],c:res==='D'?'odd-d':''},{l:'L',p:w[2],c:res==='L'?'odd-l':''}]
+    const resLabel=res==='V'?'V':res==='U'?'U':res==='T'?'T':null;
+    const pill=resLabel?`<span class="result-pill pill-${res==='V'?'w':res==='U'?'d':'l'}">${resLabel}</span>`:`<span class="result-pill pill-none">TBD</span>`;
+    const odds=[{l:'V',p:w[0],c:res==='V'?'odd-w':''},{l:'U',p:w[1],c:res==='U'?'odd-d':''},{l:'T',p:w[2],c:res==='T'?'odd-l':''}]
       .map(o=>`<span class="odd-pill ${o.c}">${o.l} ${Math.round(o.p*100)}%</span>`).join('');
     const hDisp=sc.home!==null?`<span class="score-val">${sc.home}</span>`:`<span class="score-val empty">–</span>`;
     const aDisp=sc.away!==null?`<span class="score-val">${sc.away}</span>`:`<span class="score-val empty">–</span>`;
+    const hnShort=hn.length>9?hn.substring(0,9)+'…':hn;
+    const anShort=an.length>9?an.substring(0,9)+'…':an;
     return `<div class="fixture-card"><div class="fixture-row">
-      <div class="fix-meta">GW${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
+      <div class="fix-meta">SR${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
       <div class="fix-teams-row">
         <span class="fix-name ${ih?'bold':''}">${hn}</span>
         <div class="score-block">
           <div class="score-col">
-            <div class="score-col-label">${hn.length>8?hn.substring(0,8)+'…':hn}</div>
+            <div class="score-col-label">${hnShort}</div>
             <div class="score-stepper">
               <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">−</button>
               ${hDisp}
@@ -316,7 +354,7 @@ function renderFixtures(){
           </div>
           <span class="score-vs">–</span>
           <div class="score-col">
-            <div class="score-col-label">${an.length>8?an.substring(0,8)+'…':an}</div>
+            <div class="score-col-label">${anShort}</div>
             <div class="score-stepper">
               <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">−</button>
               ${aDisp}
