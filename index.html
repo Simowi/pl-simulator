@@ -5,282 +5,180 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PL Title Race 2024/25</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #141414; color: #e8e8e8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh; padding: 28px 20px;
+}
+.app { max-width: 860px; margin: 0 auto; }
 
-  body {
-    background: #1a1a1a;
-    color: #e8e8e8;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    padding: 24px 16px;
-  }
+.header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #262626;
+}
+.pl-badge {
+  width: 44px; height: 44px; background: #37003c; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+}
+.header-text h1 { font-size: 19px; font-weight: 700; color: #fff; }
+.header-text p  { font-size: 12px; color: #666; margin-top: 3px; }
+.reset-btn {
+  margin-left: auto; background: #222; border: 1px solid #333; color: #aaa;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px;
+  transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+}
+.reset-btn:hover { background: #2e2e2e; color: #fff; }
 
-  .app { max-width: 820px; margin: 0 auto; }
+.title-banner {
+  display: none; align-items: center; gap: 12px;
+  padding: 14px 20px; border-radius: 12px; margin-bottom: 20px;
+  font-weight: 700; font-size: 15px;
+}
+.title-banner.show { display: flex; }
+.title-banner.arsenal { background: #6b0000; color: #fff; border: 1px solid #cc0000; }
+.title-banner.city    { background: #002850; color: #fff; border: 1px solid #5a9fd4; }
+.title-banner.draw    { background: #222;    color: #fff; border: 1px solid #444; }
+.trophy-icon { font-size: 26px; flex-shrink: 0; }
 
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #2e2e2e;
-  }
+/* PROB BAR */
+.prob-section { margin-bottom: 22px; }
+.prob-label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+.prob-team     { font-size: 13px; font-weight: 600; }
+.prob-team.ars { color: #ff6b6b; }
+.prob-team.cit { color: #6cabdd; }
+.prob-pct      { font-size: 24px; font-weight: 800; }
+.prob-pct.ars  { color: #ff6b6b; }
+.prob-pct.cit  { color: #6cabdd; }
+.prob-middle   { text-align: center; }
+.prob-bar-wrap {
+  height: 10px; background: #222; border-radius: 10px;
+  overflow: hidden; position: relative; display: flex;
+}
+.prob-bar-ars {
+  height: 100%; background: #cc0000;
+  transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.prob-bar-cit {
+  height: 100%; background: #5a9fd4; margin-left: auto;
+  transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.prob-sub { font-size: 11px; color: #444; text-align: center; margin-top: 6px; }
 
-  .pl-badge {
-    width: 44px; height: 44px;
-    background: #3d0070;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
+/* SCENARIO BAR */
+.scenario-bar {
+  background: #1e1e1e; border-radius: 12px; padding: 16px 20px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  gap: 12px; margin-bottom: 24px; align-items: center;
+}
+.scenario-stat { text-align: center; }
+.s-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.s-val   { font-size: 26px; font-weight: 800; color: #fff; }
+.s-sub   { font-size: 11px; color: #666; margin-top: 2px; }
+.gap-divider { text-align: center; }
+.gap-num   { font-size: 30px; font-weight: 800; }
+.gap-sub   { font-size: 11px; color: #666; margin-top: 2px; }
+.gap-pos   { color: #4caf50; }
+.gap-neg   { color: #f44336; }
+.gap-zero  { color: #cddc39; }
 
-  .header-text h1 { font-size: 20px; font-weight: 700; color: #fff; }
-  .header-text p { font-size: 13px; color: #888; margin-top: 2px; }
+/* TABLE */
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #555; margin-bottom: 10px;
+}
+.table-wrap { background: #1e1e1e; border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
+.table-header {
+  display: grid;
+  grid-template-columns: 28px 1fr 36px 30px 30px 30px 46px 40px 52px;
+  padding: 10px 16px; font-size: 11px; color: #555; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid #282828; gap: 0 4px;
+}
+.team-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 36px 30px 30px 30px 46px 40px 52px;
+  padding: 11px 16px; font-size: 13px; align-items: center;
+  border-bottom: 1px solid #252525; gap: 0 4px;
+  transition: background 0.4s;
+}
+.team-row:last-child { border-bottom: none; }
+.team-row.ars-row { background: #1c0808; }
+.team-row.cit-row { background: #06101e; }
 
-  .reset-btn {
-    margin-left: auto;
-    background: #2a2a2a;
-    border: 1px solid #3a3a3a;
-    color: #aaa;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background 0.15s;
-  }
-  .reset-btn:hover { background: #333; color: #fff; }
+@keyframes flashUp   { 0%,60%{ background:#0d3d1a; } 100%{ background:inherit; } }
+@keyframes flashDown { 0%,60%{ background:#3d0d0d; } 100%{ background:inherit; } }
+.flash-up   { animation: flashUp   0.7s ease forwards; }
+.flash-down { animation: flashDown 0.7s ease forwards; }
 
-  /* TITLE BANNER */
-  .title-banner {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    font-size: 15px;
-  }
-  .title-banner.show { display: flex; }
-  .title-banner.arsenal { background: #8b0000; color: #fff; border: 1px solid #cc0000; }
-  .title-banner.city { background: #003870; color: #fff; border: 1px solid #6cabdd; }
-  .title-banner.draw { background: #2a2a2a; color: #fff; border: 1px solid #555; }
-  .trophy-icon { font-size: 24px; }
+.pos { color: #666; font-size: 12px; text-align: center; font-weight: 600; }
+.team-name { font-weight: 500; color: #e8e8e8; display: flex; align-items: center; gap: 8px; }
+.team-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-ars   { background: #ee0024; }
+.dot-cit   { background: #6cabdd; }
+.dot-other { background: #444; }
+.stat     { text-align: center; color: #bbb; }
+.stat.pts { font-weight: 700; color: #fff; font-size: 15px; }
+.stat.gd  { color: #999; }
+.champ-badge {
+  display:none; font-size:10px; padding:2px 7px; border-radius:20px;
+  margin-left:6px; font-weight:700;
+}
+.champ-badge.show { display:inline-block; }
+.ars-champ { background:#a50000; color:#fff; }
+.cit-champ { background:#5a9fd4; color:#001830; }
+.table-ellipsis { padding:7px 16px; font-size:11px; color:#333; letter-spacing:0.05em; }
 
-  /* STANDINGS TABLE */
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #666;
-    margin-bottom: 10px;
-  }
+/* FIXTURES */
+.fixtures-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+@media(max-width:580px){ .fixtures-grid{ grid-template-columns:1fr; } }
+.team-fixtures { background:#1e1e1e; border-radius:12px; overflow:hidden; }
+.tfh { padding:12px 16px; font-size:13px; font-weight:700; display:flex; align-items:center; gap:8px; border-bottom:1px solid #282828; }
+.ars-header { background:#250a0a; color:#ff6b6b; }
+.cit-header { background:#060f1c; color:#6cabdd; }
 
-  .table-wrap {
-    background: #222;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 28px;
-  }
+.fixture-row { padding:12px 16px; border-bottom:1px solid #252525; }
+.fixture-row:last-child { border-bottom:none; }
+.fixture-meta { font-size:10px; color:#555; margin-bottom:7px; text-transform:uppercase; letter-spacing:0.05em; }
+.fixture-teams { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.ft-name { font-size:12px; color:#ccc; flex:1; }
+.ft-name.right { text-align:right; }
+.ft-name.bold  { font-weight:700; color:#e8e8e8; }
+.score-inputs  { display:flex; align-items:center; gap:4px; flex-shrink:0; }
+.score-group   {
+  display:flex; align-items:center;
+  background:#141414; border:1px solid #333; border-radius:8px; overflow:hidden;
+}
+.score-btn {
+  width:26px; height:32px; background:transparent; border:none; color:#777;
+  font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background 0.1s,color 0.1s; line-height:1; padding-bottom:1px;
+}
+.score-btn:hover { background:#252525; color:#fff; }
+.score-display {
+  width:30px; height:32px; text-align:center; font-size:15px; font-weight:700; color:#fff;
+  background:transparent; border:none; border-left:1px solid #333; border-right:1px solid #333;
+  outline:none; -moz-appearance:textfield;
+}
+.score-display::-webkit-outer-spin-button,
+.score-display::-webkit-inner-spin-button { -webkit-appearance:none; }
+.score-sep { font-size:13px; color:#444; padding:0 3px; font-weight:700; }
+.fix-bottom { display:flex; justify-content:space-between; align-items:center; margin-top:6px; flex-wrap:wrap; gap:4px; }
+.result-pill { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; text-transform:uppercase; }
+.pill-w    { background:#0d2e0d; color:#4caf50; }
+.pill-d    { background:#2a2a0d; color:#cddc39; }
+.pill-l    { background:#2e0d0d; color:#f44336; }
+.pill-none { background:#222;    color:#555; }
+.match-odds { display:flex; gap:5px; }
+.odd-pill {
+  font-size:10px; padding:2px 7px; border-radius:4px; font-weight:600;
+  background:#252525; color:#666; border:1px solid #333;
+}
+.odd-w { background:#0d2e0d; color:#4caf50; border-color:#2a5a2a; }
+.odd-d { background:#2a2a0d; color:#cddc39; border-color:#4a4a1a; }
+.odd-l { background:#2e0d0d; color:#f44336; border-color:#5a1a1a; }
 
-  .table-header {
-    display: grid;
-    grid-template-columns: 28px 1fr 38px 34px 34px 34px 48px 42px 50px;
-    padding: 10px 16px;
-    font-size: 11px;
-    color: #666;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid #2e2e2e;
-    gap: 0 4px;
-  }
-
-  .team-row {
-    display: grid;
-    grid-template-columns: 28px 1fr 38px 34px 34px 34px 48px 42px 50px;
-    padding: 10px 16px;
-    font-size: 13px;
-    align-items: center;
-    border-bottom: 1px solid #282828;
-    gap: 0 4px;
-    transition: background 0.15s;
-  }
-
-  .team-row:last-child { border-bottom: none; }
-  .team-row.arsenal-row { background: #1e0808; }
-  .team-row.city-row { background: #070e1a; }
-  .team-row.arsenal-row.winner { background: #3a0000; }
-  .team-row.city-row.winner { background: #001633; }
-
-  .pos { color: #888; font-size: 12px; text-align: center; }
-  .team-name { font-weight: 500; color: #e8e8e8; display: flex; align-items: center; gap: 8px; }
-  .team-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-arsenal { background: #ee0024; }
-  .dot-city { background: #6cabdd; }
-  .dot-other { background: #555; }
-
-  .stat { text-align: center; color: #ccc; }
-  .stat.pts { font-weight: 700; color: #fff; font-size: 15px; }
-  .stat.gd { color: #aaa; }
-  .stat.gf { color: #aaa; }
-
-  .champion-badge {
-    display: none;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-left: 6px;
-    font-weight: 600;
-  }
-  .champion-badge.show { display: inline-block; }
-  .arsenal-champ { background: #cc0000; color: #fff; }
-  .city-champ { background: #6cabdd; color: #001f3d; }
-
-  /* FIXTURES */
-  .fixtures-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  @media (max-width: 600px) { .fixtures-grid { grid-template-columns: 1fr; } }
-
-  .team-fixtures { background: #222; border-radius: 12px; overflow: hidden; }
-
-  .team-fixtures-header {
-    padding: 12px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #2e2e2e;
-  }
-
-  .arsenal-header { background: #2a0a0a; color: #ff6b6b; }
-  .city-header { background: #070f1f; color: #6cabdd; }
-
-  .fixture-row {
-    padding: 12px 16px;
-    border-bottom: 1px solid #282828;
-  }
-  .fixture-row:last-child { border-bottom: none; }
-
-  .fixture-meta {
-    font-size: 11px;
-    color: #666;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .fixture-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .fixture-team-name {
-    font-size: 12px;
-    color: #ccc;
-    flex: 1;
-  }
-  .fixture-team-name.right { text-align: right; }
-  .fixture-team-name.home { font-weight: 600; color: #e8e8e8; }
-
-  .score-inputs {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-
-  .score-group {
-    display: flex;
-    align-items: center;
-    background: #1a1a1a;
-    border: 1px solid #3a3a3a;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .score-btn {
-    width: 24px; height: 30px;
-    background: transparent;
-    border: none;
-    color: #888;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.1s, color 0.1s;
-    line-height: 1;
-    padding-bottom: 2px;
-  }
-  .score-btn:hover { background: #2a2a2a; color: #fff; }
-
-  .score-display {
-    width: 28px; height: 30px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-    background: transparent;
-    border: none;
-    border-left: 1px solid #3a3a3a;
-    border-right: 1px solid #3a3a3a;
-    outline: none;
-    -moz-appearance: textfield;
-  }
-  .score-display::-webkit-outer-spin-button,
-  .score-display::-webkit-inner-spin-button { -webkit-appearance: none; }
-
-  .score-sep {
-    font-size: 14px;
-    color: #555;
-    padding: 0 3px;
-    font-weight: 700;
-  }
-
-  .result-pill {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin-top: 5px;
-    text-transform: uppercase;
-  }
-  .pill-w { background: #1a4a1a; color: #4caf50; }
-  .pill-d { background: #3a3a1a; color: #cddc39; }
-  .pill-l { background: #4a1a1a; color: #f44336; }
-  .pill-none { background: #2a2a2a; color: #666; }
-
-  /* SCENARIO */
-  .scenario-bar {
-    background: #222;
-    border-radius: 12px;
-    padding: 16px 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .scenario-stat { text-align: center; }
-  .scenario-stat .s-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-  .scenario-stat .s-val { font-size: 20px; font-weight: 700; color: #fff; }
-  .scenario-stat .s-sub { font-size: 11px; color: #888; margin-top: 2px; }
-
-  .gap-positive { color: #4caf50 !important; }
-  .gap-negative { color: #f44336 !important; }
-  .gap-zero { color: #cddc39 !important; }
-
-  .note { font-size: 12px; color: #555; text-align: center; margin-top: 12px; }
-  .pl-line { width: 3px; height: 100%; background: #37003c; border-radius: 2px; }
+.note { font-size:11px; color:#444; text-align:center; margin-top:8px; line-height:1.7; }
 </style>
 </head>
 <body>
@@ -289,10 +187,10 @@
   <div class="header">
     <div class="pl-badge">&#9917;</div>
     <div class="header-text">
-      <h1>Premier League 2024/25 — Title Race</h1>
-      <p>Simulate the final 3 gameweeks</p>
+      <h1>Premier League 2024/25 — Title Race Simulator</h1>
+      <p>Adjust scorelines to see the table, probabilities and title odds update live</p>
     </div>
-    <button class="reset-btn" onclick="resetAll()">Reset</button>
+    <button class="reset-btn" onclick="resetAll()">&#8635; Reset</button>
   </div>
 
   <div class="title-banner" id="titleBanner">
@@ -300,29 +198,49 @@
     <span id="titleText"></span>
   </div>
 
+  <div class="prob-section">
+    <div class="prob-label-row">
+      <div>
+        <div class="prob-team ars">Arsenal</div>
+        <div class="prob-pct ars" id="arsProbPct">—</div>
+      </div>
+      <div class="prob-middle">
+        <div style="font-size:11px;color:#555;margin-bottom:4px">Title probability</div>
+        <div style="font-size:11px;color:#444" id="drawProbPct">calculating…</div>
+      </div>
+      <div style="text-align:right">
+        <div class="prob-team cit">Man City</div>
+        <div class="prob-pct cit" id="citProbPct">—</div>
+      </div>
+    </div>
+    <div class="prob-bar-wrap">
+      <div class="prob-bar-ars" id="probBarArs" style="width:0%"></div>
+      <div class="prob-bar-cit" id="probBarCit" style="width:0%"></div>
+    </div>
+    <div class="prob-sub">Monte Carlo simulation · 60 000 runs · pre-match bookmaker odds per fixture · updates live</div>
+  </div>
+
   <div class="scenario-bar">
     <div class="scenario-stat">
-      <div class="s-label">Arsenal pts</div>
+      <div class="s-label">Arsenal</div>
       <div class="s-val" id="arsTotal">76</div>
-      <div class="s-sub">projected</div>
+      <div class="s-sub">projected pts</div>
+    </div>
+    <div class="gap-divider">
+      <div class="gap-num gap-pos" id="gapVal">+5</div>
+      <div class="gap-sub" id="gapSub">Arsenal lead</div>
     </div>
     <div class="scenario-stat">
-      <div class="s-label">Gap</div>
-      <div class="s-val gap-zero" id="gapVal">+5</div>
-      <div class="s-sub" id="gapSub">Arsenal lead</div>
-    </div>
-    <div class="scenario-stat">
-      <div class="s-label">City pts</div>
+      <div class="s-label">Man City</div>
       <div class="s-val" id="cityTotal">71</div>
-      <div class="s-sub">projected</div>
+      <div class="s-sub">projected pts</div>
     </div>
   </div>
 
-  <div class="section-label" style="margin-bottom:10px;">Standings</div>
+  <div class="section-label">Live standings</div>
   <div class="table-wrap">
     <div class="table-header">
-      <span>#</span>
-      <span>Club</span>
+      <span>#</span><span>Club</span>
       <span style="text-align:center">PL</span>
       <span style="text-align:center">W</span>
       <span style="text-align:center">D</span>
@@ -334,259 +252,307 @@
     <div id="tableBody"></div>
   </div>
 
-  <div class="section-label" style="margin-bottom:10px;">Fixtures — enter results</div>
+  <div class="section-label">Fixtures — enter results</div>
   <div class="fixtures-grid">
     <div class="team-fixtures">
-      <div class="team-fixtures-header arsenal-header">
-        <span style="width:10px;height:10px;background:#ee0024;border-radius:50%;display:inline-block"></span>
-        Arsenal
+      <div class="tfh ars-header">
+        <span style="width:9px;height:9px;background:#ee0024;border-radius:50%;display:inline-block"></span>
+        Arsenal · 3 games
       </div>
       <div id="arsenalFixtures"></div>
     </div>
     <div class="team-fixtures">
-      <div class="team-fixtures-header city-header">
-        <span style="width:10px;height:10px;background:#6cabdd;border-radius:50%;display:inline-block"></span>
-        Man City
+      <div class="tfh cit-header">
+        <span style="width:9px;height:9px;background:#6cabdd;border-radius:50%;display:inline-block"></span>
+        Man City · 4 games
       </div>
       <div id="cityFixtures"></div>
     </div>
   </div>
 
-  <p class="note">City have 4 remaining PL games · Arsenal have 3 · GD tiebreaker applied · Data as of GW35</p>
+  <p class="note">
+    Pre-match odds: Bet365 / William Hill · GD then GF tiebreaker applied after points<br>
+    City have 4 remaining PL games · Arsenal have 3 · Base data: GW35
+  </p>
 </div>
 
 <script>
 const BASE = {
-  arsenal: { pts: 76, w: 23, d: 7, l: 5, gf: 67, ga: 26, played: 35 },
-  city:    { pts: 71, w: 21, d: 8, l: 5, gf: 69, ga: 32, played: 34 }
+  arsenal: { pts:76, w:23, d:7,  l:5,  gf:67, ga:26, played:35 },
+  city:    { pts:71, w:21, d:8,  l:5,  gf:69, ga:32, played:34 }
 };
 
-const ARS_FIXTURES = [
-  { gw: 36, home: false, opponent: 'West Ham',      date: 'Sun 11 May' },
-  { gw: 37, home: true,  opponent: 'Burnley',       date: 'Mon 18 May' },
-  { gw: 38, home: false, opponent: 'Crystal Palace',date: 'Sun 25 May' }
+// odds = [home_win, draw, away_win] decimal, venue perspective
+const ARS_FIX = [
+  { gw:36, home:false, opp:'West Ham',       date:'Sun 11 May', odds:[2.50,3.40,2.80] },
+  { gw:37, home:true,  opp:'Burnley',        date:'Mon 19 May', odds:[1.22,6.50,13.0] },
+  { gw:38, home:false, opp:'Crystal Palace', date:'Sun 25 May', odds:[3.20,3.40,2.15] }
+];
+const CIT_FIX = [
+  { gw:35, home:true,  opp:'Brentford',      date:'Sat 9 May',  odds:[1.40,5.00,8.00] },
+  { gw:36, home:true,  opp:'Crystal Palace', date:'Wed 13 May', odds:[1.30,5.50,10.0] },
+  { gw:37, home:false, opp:'Bournemouth',    date:'Tue 19 May', odds:[2.40,3.30,3.10] },
+  { gw:38, home:true,  opp:'Aston Villa',    date:'Sun 25 May', odds:[1.55,4.00,6.00] }
+];
+const OTHERS = [
+  { name:'Man United',    pts:64,w:18,d:10,l:7, gf:63,ga:48,played:35 },
+  { name:'Liverpool',     pts:58,w:17,d:7, l:11,gf:59,ga:47,played:35 },
+  { name:'Aston Villa',   pts:58,w:17,d:7, l:11,gf:48,ga:44,played:35 },
+  { name:'Bournemouth',   pts:52,w:12,d:16,l:7, gf:55,ga:52,played:35 },
+  { name:'Brentford',     pts:51,w:14,d:9, l:12,gf:52,ga:46,played:35 },
+  { name:'Brighton',      pts:50,w:13,d:11,l:11,gf:49,ga:42,played:35 },
+  { name:'Chelsea',       pts:48,w:13,d:9, l:13,gf:54,ga:48,played:35 },
+  { name:'Everton',       pts:48,w:13,d:9, l:13,gf:44,ga:44,played:35 },
+  { name:'Fulham',        pts:48,w:14,d:6, l:15,gf:44,ga:49,played:35 },
+  { name:'Sunderland',    pts:47,w:12,d:11,l:12,gf:37,ga:46,played:35 },
+  { name:'Newcastle',     pts:45,w:13,d:6, l:16,gf:49,ga:51,played:35 },
+  { name:'Wolves',        pts:40,w:11,d:7, l:17,gf:41,ga:55,played:35 },
+  { name:'Tottenham',     pts:38,w:10,d:8, l:17,gf:47,ga:58,played:35 },
+  { name:'West Ham',      pts:35,w:9, d:8, l:18,gf:38,ga:56,played:35 },
+  { name:'Crystal Palace',pts:34,w:8, d:10,l:17,gf:37,ga:56,played:35 },
+  { name:'Nottm Forest',  pts:34,w:9, d:7, l:19,gf:38,ga:62,played:35 },
+  { name:'Leicester',     pts:26,w:6, d:8, l:21,gf:33,ga:65,played:35 },
+  { name:'Burnley',       pts:22,w:5, d:7, l:23,gf:29,ga:72,played:35 }
 ];
 
-const CITY_FIXTURES = [
-  { gw: 35, home: true,  opponent: 'Brentford',     date: 'Sat 9 May'  },
-  { gw: 36, home: true,  opponent: 'Crystal Palace',date: 'Wed 13 May' },
-  { gw: 37, home: false, opponent: 'Bournemouth',   date: 'Tue 19 May' },
-  { gw: 38, home: true,  opponent: 'Aston Villa',   date: 'Sun 25 May' }
-];
+let arsScores  = ARS_FIX.map(()=>({home:null,away:null}));
+let cityScores = CIT_FIX.map(()=>({home:null,away:null}));
+let prevLeader = 'arsenal';
 
-let arsScores = ARS_FIXTURES.map(() => ({ home: null, away: null }));
-let cityScores = CITY_FIXTURES.map(() => ({ home: null, away: null }));
+function norm(odds){ const s=odds.reduce((a,b)=>a+1/b,0); return odds.map(o=>(1/o)/s); }
 
-function getResult(score, isHome) {
-  if (score.home === null || score.away === null) return null;
-  const teamGoals = isHome ? score.home : score.away;
-  const oppGoals  = isHome ? score.away : score.home;
-  if (teamGoals > oppGoals) return 'W';
-  if (teamGoals === oppGoals) return 'D';
-  return 'L';
+function fixtureWDL(fix, isHome){
+  const p = norm(fix.odds);
+  return isHome ? [p[0],p[1],p[2]] : [p[2],p[1],p[0]];
 }
 
-function calcStats(base, scores, fixtures) {
-  let pts = base.pts, w = base.w, d = base.d, l = base.l;
-  let gf = base.gf, ga = base.ga, played = base.played;
-  scores.forEach((sc, i) => {
-    if (sc.home === null || sc.away === null) return;
+function calcStats(base, scores, fixes){
+  let {pts,w,d,l,gf,ga,played}=Object.assign({},base);
+  scores.forEach((sc,i)=>{
+    if(sc.home===null||sc.away===null) return;
     played++;
-    const isHome = fixtures[i].home;
-    const teamG = isHome ? sc.home : sc.away;
-    const oppG  = isHome ? sc.away : sc.home;
-    gf += teamG; ga += oppG;
-    const res = getResult(sc, isHome);
-    if (res === 'W') { pts += 3; w++; }
-    else if (res === 'D') { pts += 1; d++; }
-    else { l++; }
+    const ih=fixes[i].home, tg=ih?sc.home:sc.away, og=ih?sc.away:sc.home;
+    gf+=tg; ga+=og;
+    if(tg>og){pts+=3;w++;}else if(tg===og){pts+=1;d++;}else{l++;}
   });
-  return { pts, w, d, l, gf, ga, gd: gf - ga, played };
+  return {pts,w,d,l,gf,ga,gd:gf-ga,played};
 }
 
-const OTHER_TEAMS = [
-  { name: 'Man United',   pts: 64, w: 18, d: 10, l: 7,  gf: 63, ga: 48, played: 35 },
-  { name: 'Liverpool',    pts: 58, w: 17, d: 7,  l: 11, gf: 59, ga: 47, played: 35 },
-  { name: 'Aston Villa',  pts: 58, w: 17, d: 7,  l: 11, gf: 48, ga: 44, played: 35 },
-  { name: 'Bournemouth',  pts: 52, w: 12, d: 16, l: 7,  gf: 55, ga: 52, played: 35 },
-  { name: 'Brentford',    pts: 51, w: 14, d: 9,  l: 12, gf: 52, ga: 46, played: 35 },
-  { name: 'Brighton',     pts: 50, w: 13, d: 11, l: 11, gf: 49, ga: 42, played: 35 },
-  { name: 'Chelsea',      pts: 48, w: 13, d: 9,  l: 13, gf: 54, ga: 48, played: 35 },
-  { name: 'Everton',      pts: 48, w: 13, d: 9,  l: 13, gf: 44, ga: 44, played: 35 },
-  { name: 'Fulham',       pts: 48, w: 14, d: 6,  l: 15, gf: 44, ga: 49, played: 35 },
-  { name: 'Sunderland',   pts: 47, w: 12, d: 11, l: 12, gf: 37, ga: 46, played: 35 },
-  { name: 'Newcastle',    pts: 45, w: 13, d: 6,  l: 16, gf: 49, ga: 51, played: 35 },
-  { name: 'Wolves',       pts: 40, w: 11, d: 7,  l: 17, gf: 41, ga: 55, played: 35 },
-  { name: 'Tottenham',    pts: 38, w: 10, d: 8,  l: 17, gf: 47, ga: 58, played: 35 },
-  { name: 'West Ham',     pts: 35, w: 9,  d: 8,  l: 18, gf: 38, ga: 56, played: 35 },
-  { name: 'Crystal Palace', pts: 34, w: 8, d: 10, l: 17, gf: 37, ga: 56, played: 35 },
-  { name: 'Nottm Forest', pts: 34, w: 9,  d: 7,  l: 19, gf: 38, ga: 62, played: 35 },
-  { name: 'Leicester',    pts: 26, w: 6,  d: 8,  l: 21, gf: 33, ga: 65, played: 35 },
-  { name: 'Burnley',      pts: 22, w: 5,  d: 7,  l: 23, gf: 29, ga: 72, played: 35 }
-];
+function getResult(sc,isHome){
+  if(sc.home===null||sc.away===null) return null;
+  const tg=isHome?sc.home:sc.away, og=isHome?sc.away:sc.home;
+  return tg>og?'W':tg===og?'D':'L';
+}
 
-function buildTable() {
-  const ars = calcStats(BASE.arsenal, arsScores, ARS_FIXTURES);
-  const cit = calcStats(BASE.city, cityScores, CITY_FIXTURES);
+function cmp(a,b){
+  if(b.pts!==a.pts) return b.pts-a.pts;
+  if(b.gd!==a.gd)  return b.gd-a.gd;
+  return b.gf-a.gf;
+}
 
-  const rows = [
-    { name: 'Arsenal',   ...ars, isArsenal: true, isCity: false },
-    { name: 'Man City',  ...cit, isArsenal: false, isCity: true },
-    ...OTHER_TEAMS.map(t => ({ ...t, gd: t.gf - t.ga, isArsenal: false, isCity: false }))
-  ];
+function monteCarlo(ars,cit,N=60000){
+  const aFix=ARS_FIX.map((f,i)=>arsScores[i].home!==null?null:fixtureWDL(f,f.home));
+  const cFix=CIT_FIX.map((f,i)=>cityScores[i].home!==null?null:fixtureWDL(f,f.home));
+  let av=0,cv=0,dv=0;
+  for(let i=0;i<N;i++){
+    let ap=ars.pts,agd=ars.gd,agf=ars.gf;
+    let cp=cit.pts,cgd=cit.gd,cgf=cit.gf;
+    aFix.forEach(w=>{
+      if(!w) return;
+      const r=Math.random();
+      if(r<w[0]){ap+=3;agd+=~~(Math.random()*3)+1;agf+=~~(Math.random()*3)+1;}
+      else if(r<w[0]+w[1]){ap+=1;}
+      else{agd-=~~(Math.random()*2)+1;}
+    });
+    cFix.forEach(w=>{
+      if(!w) return;
+      const r=Math.random();
+      if(r<w[0]){cp+=3;cgd+=~~(Math.random()*3)+1;cgf+=~~(Math.random()*3)+1;}
+      else if(r<w[0]+w[1]){cp+=1;}
+      else{cgd-=~~(Math.random()*2)+1;}
+    });
+    if(ap>cp) av++;
+    else if(cp>ap) cv++;
+    else if(agd>cgd) av++;
+    else if(cgd>agd) cv++;
+    else if(agf>cgf) av++;
+    else if(cgf>agf) cv++;
+    else dv++;
+  }
+  return {ars:av/N,cit:cv/N,draw:dv/N};
+}
 
-  rows.sort((a, b) => {
-    if (b.pts !== a.pts) return b.pts - a.pts;
-    if (b.gd !== a.gd) return b.gd - a.gd;
-    return b.gf - a.gf;
-  });
+function refresh(){
+  const ars=calcStats(BASE.arsenal,arsScores,ARS_FIX);
+  const cit=calcStats(BASE.city,cityScores,CIT_FIX);
+  const sorted=[
+    {name:'Arsenal', ...ars, isArs:true, isCit:false},
+    {name:'Man City',...cit, isArs:false,isCit:true},
+    ...OTHERS.map(t=>({...t,gd:t.gf-t.ga,isArs:false,isCit:false}))
+  ].sort(cmp);
 
-  const arsPos = rows.findIndex(r => r.isArsenal) + 1;
-  const citPos = rows.findIndex(r => r.isCity) + 1;
-  const winner = arsPos < citPos ? 'arsenal' : citPos < arsPos ? 'city' : ars.pts > cit.pts ? 'arsenal' : cit.pts > ars.pts ? 'city' : ars.gd > cit.gd ? 'arsenal' : cit.gd > ars.gd ? 'city' : 'draw';
+  const newLeader = sorted[0].isArs?'arsenal':sorted[0].isCit?'city':'other';
+  const swapped   = newLeader!==prevLeader && (newLeader==='arsenal'||newLeader==='city') && (prevLeader==='arsenal'||prevLeader==='city');
+  prevLeader = newLeader;
 
-  const allPlayed = arsScores.every(s => s.home !== null && s.away !== null) &&
-                    cityScores.every(s => s.home !== null && s.away !== null);
+  updateProb(ars,cit);
+  updateGap(ars,cit);
+  renderTable(sorted,ars,cit,swapped,newLeader);
+  renderFixtures();
+}
 
-  const banner = document.getElementById('titleBanner');
-  const titleText = document.getElementById('titleText');
-  if (allPlayed) {
-    banner.classList.add('show');
-    banner.className = 'title-banner show ' + winner;
-    if (winner === 'arsenal') titleText.textContent = 'Arsenal are Premier League Champions 2024/25!';
-    else if (winner === 'city') titleText.textContent = 'Manchester City are Premier League Champions 2024/25!';
-    else titleText.textContent = 'Tied on points and goal difference — further tiebreakers apply.';
+function updateProb(ars,cit){
+  const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
+  let ap,cp,dp;
+  if(allDone){
+    const aTop=cmp(ars,cit)<0;
+    const tie =cmp(ars,cit)===0;
+    ap=tie?0:aTop?1:0; cp=tie?0:aTop?0:1; dp=tie?1:0;
   } else {
-    banner.classList.remove('show');
+    const mc=monteCarlo(ars,cit);
+    ap=mc.ars;cp=mc.cit;dp=mc.draw;
+  }
+  document.getElementById('arsProbPct').textContent=Math.round(ap*100)+'%';
+  document.getElementById('citProbPct').textContent=Math.round(cp*100)+'%';
+  document.getElementById('drawProbPct').textContent='Tie: '+Math.round(dp*100)+'%';
+  document.getElementById('probBarArs').style.width=Math.round(ap*100)+'%';
+  document.getElementById('probBarCit').style.width=Math.round(cp*100)+'%';
+}
+
+function updateGap(ars,cit){
+  const gap=ars.pts-cit.pts;
+  document.getElementById('arsTotal').textContent=ars.pts;
+  document.getElementById('cityTotal').textContent=cit.pts;
+  const el=document.getElementById('gapVal');
+  el.textContent=(gap>0?'+':'')+gap;
+  el.className='gap-num '+(gap>0?'gap-pos':gap<0?'gap-neg':'gap-zero');
+  document.getElementById('gapSub').textContent=gap>0?'Arsenal lead':gap<0?'City lead':'Level';
+}
+
+function renderTable(sorted,ars,cit,swapped,leader){
+  const allDone=arsScores.every(s=>s.home!==null)&&cityScores.every(s=>s.home!==null);
+  const arsPos=sorted.findIndex(r=>r.isArs);
+  const citPos=sorted.findIndex(r=>r.isCit);
+  const topIdx=Math.min(arsPos,citPos);
+  const winner=sorted[topIdx].isArs?'arsenal':sorted[topIdx].isCit?'city':'other';
+
+  const banner=document.getElementById('titleBanner');
+  if(allDone&&winner!=='other'){
+    banner.className='title-banner show '+winner;
+    document.getElementById('titleText').textContent=
+      winner==='arsenal'?'Arsenal are Premier League Champions 2024/25!':
+      'Manchester City are Premier League Champions 2024/25!';
+  } else if(allDone){
+    banner.className='title-banner show draw';
+    document.getElementById('titleText').textContent='Tied on all tiebreakers — further criteria apply.';
+  } else {
+    banner.className='title-banner';
   }
 
-  const gap = ars.pts - cit.pts;
-  document.getElementById('arsTotal').textContent = ars.pts;
-  document.getElementById('cityTotal').textContent = cit.pts;
-  const gapEl = document.getElementById('gapVal');
-  const gapSub = document.getElementById('gapSub');
-  gapEl.textContent = (gap > 0 ? '+' : '') + gap;
-  gapEl.className = 's-val ' + (gap > 0 ? 'gap-positive' : gap < 0 ? 'gap-negative' : 'gap-zero');
-  gapSub.textContent = gap > 0 ? 'Arsenal lead' : gap < 0 ? 'City lead' : 'Level';
-
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-  rows.slice(0, 6).forEach((team, i) => {
-    const isWinner = (team.isArsenal && winner === 'arsenal') || (team.isCity && winner === 'city');
-    const rowClass = team.isArsenal ? 'team-row arsenal-row' + (isWinner && allPlayed ? ' winner' : '') :
-                     team.isCity   ? 'team-row city-row'    + (isWinner && allPlayed ? ' winner' : '') :
-                     'team-row';
-    const dotClass = team.isArsenal ? 'team-dot dot-arsenal' : team.isCity ? 'team-dot dot-city' : 'team-dot dot-other';
-    const badge = (team.isArsenal || team.isCity) && allPlayed && isWinner
-      ? `<span class="champion-badge show ${team.isArsenal ? 'arsenal-champ' : 'city-champ'}">&#127942; Champions</span>` : '';
-    const gdStr = team.gd >= 0 ? '+' + team.gd : team.gd;
-
-    tbody.innerHTML += `
-      <div class="${rowClass}">
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML='';
+  sorted.slice(0,6).forEach((t,i)=>{
+    const isWinner=allDone&&((t.isArs&&winner==='arsenal')||(t.isCit&&winner==='city'));
+    let rc=t.isArs?'team-row ars-row':t.isCit?'team-row cit-row':'team-row';
+    if(swapped&&t.isArs) rc+= leader==='arsenal'?' flash-up':' flash-down';
+    if(swapped&&t.isCit) rc+= leader==='city'   ?' flash-up':' flash-down';
+    const dc=t.isArs?'team-dot dot-ars':t.isCit?'team-dot dot-cit':'team-dot dot-other';
+    const badge=isWinner?`<span class="champ-badge show ${t.isArs?'ars-champ':'cit-champ'}">&#127942; Champions</span>`:'';
+    const gdStr=t.gd>=0?'+'+t.gd:t.gd;
+    tbody.innerHTML+=`
+      <div class="${rc}">
         <span class="pos">${i+1}</span>
-        <span class="team-name"><span class="${dotClass}"></span>${team.name}${badge}</span>
-        <span class="stat">${team.played}</span>
-        <span class="stat">${team.w}</span>
-        <span class="stat">${team.d}</span>
-        <span class="stat">${team.l}</span>
+        <span class="team-name"><span class="${dc}"></span>${t.name}${badge}</span>
+        <span class="stat">${t.played}</span>
+        <span class="stat">${t.w}</span>
+        <span class="stat">${t.d}</span>
+        <span class="stat">${t.l}</span>
         <span class="stat gd">${gdStr}</span>
-        <span class="stat gf">${team.gf}</span>
-        <span class="stat pts">${team.pts}</span>
+        <span class="stat">${t.gf}</span>
+        <span class="stat pts">${t.pts}</span>
       </div>`;
   });
-  const divider = document.createElement('div');
-  divider.style.cssText = 'padding:6px 16px;font-size:11px;color:#444;letter-spacing:0.05em;border-bottom:1px solid #282828;';
-  divider.textContent = '— positions 7–20 unchanged —';
-  tbody.appendChild(divider);
+  const ell=document.createElement('div');
+  ell.className='table-ellipsis';
+  ell.textContent='— positions 7–20 not shown —';
+  tbody.appendChild(ell);
 }
 
-function renderFixtures() {
-  const arsEl = document.getElementById('arsenalFixtures');
-  const citEl = document.getElementById('cityFixtures');
-  arsEl.innerHTML = '';
-  citEl.innerHTML = '';
+function renderFixtures(){
+  document.getElementById('arsenalFixtures').innerHTML='';
+  document.getElementById('cityFixtures').innerHTML='';
 
-  function makeRow(sc, fix, idx, team) {
-    const isHome = fix.home;
-    const homeTeam = isHome ? (team === 'ars' ? 'Arsenal' : 'Man City') : fix.opponent;
-    const awayTeam = isHome ? fix.opponent : (team === 'ars' ? 'Arsenal' : 'Man City');
-    const res = getResult(sc, isHome);
-    const pillHtml = res
-      ? `<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`
-      : `<span class="result-pill pill-none">TBD</span>`;
-
+  function row(sc,fix,idx,team){
+    const ih=fix.home;
+    const me=team==='ars'?'Arsenal':'Man City';
+    const hn=ih?me:fix.opp, an=ih?fix.opp:me;
+    const res=getResult(sc,ih);
+    const pill=res?`<span class="result-pill pill-${res.toLowerCase()}">${res}</span>`
+                  :`<span class="result-pill pill-none">TBD</span>`;
+    const wdl=fixtureWDL(fix,ih);
+    const oddsHtml=[
+      {lbl:'W',p:wdl[0],ac:res==='W'?'odd-w':''},
+      {lbl:'D',p:wdl[1],ac:res==='D'?'odd-d':''},
+      {lbl:'L',p:wdl[2],ac:res==='L'?'odd-l':''}
+    ].map(o=>`<span class="odd-pill ${o.ac}">${o.lbl} ${Math.round(o.p*100)}%</span>`).join('');
+    const hv=sc.home!==null?sc.home:'';
+    const av=sc.away!==null?sc.away:'';
     return `
       <div class="fixture-row">
         <div class="fixture-meta">GW${fix.gw} &nbsp;·&nbsp; ${fix.date}</div>
         <div class="fixture-teams">
-          <span class="fixture-team-name home">${homeTeam}</span>
+          <span class="ft-name ${ih?'bold':''}">${hn}</span>
           <div class="score-inputs">
             <div class="score-group">
               <button class="score-btn" onclick="adj('${team}',${idx},'home',-1)">&#8722;</button>
-              <input class="score-display" type="number" min="0" value="${sc.home !== null ? sc.home : '–'}"
-                oninput="setScore('${team}',${idx},'home',this.value)"
-                onfocus="if(this.value==='–')this.value=''"
-                onblur="if(this.value==='')this.value='–'" />
-              <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">&#43;</button>
+              <input class="score-display" type="number" min="0" value="${hv}" placeholder="–"
+                oninput="setScore('${team}',${idx},'home',this.value)"/>
+              <button class="score-btn" onclick="adj('${team}',${idx},'home',1)">+</button>
             </div>
-            <span class="score-sep">&#8211;</span>
+            <span class="score-sep">–</span>
             <div class="score-group">
               <button class="score-btn" onclick="adj('${team}',${idx},'away',-1)">&#8722;</button>
-              <input class="score-display" type="number" min="0" value="${sc.away !== null ? sc.away : '–'}"
-                oninput="setScore('${team}',${idx},'away',this.value)"
-                onfocus="if(this.value==='–')this.value=''"
-                onblur="if(this.value==='')this.value='–'" />
-              <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">&#43;</button>
+              <input class="score-display" type="number" min="0" value="${av}" placeholder="–"
+                oninput="setScore('${team}',${idx},'away',this.value)"/>
+              <button class="score-btn" onclick="adj('${team}',${idx},'away',1)">+</button>
             </div>
           </div>
-          <span class="fixture-team-name right">${awayTeam}</span>
+          <span class="ft-name right ${!ih?'bold':''}">${an}</span>
         </div>
-        <div>${pillHtml}</div>
+        <div class="fix-bottom">
+          ${pill}
+          <div class="match-odds">${oddsHtml}</div>
+        </div>
       </div>`;
   }
 
-  ARS_FIXTURES.forEach((fix, i) => {
-    arsEl.innerHTML += makeRow(arsScores[i], fix, i, 'ars');
-  });
-  CITY_FIXTURES.forEach((fix, i) => {
-    citEl.innerHTML += makeRow(cityScores[i], fix, i, 'cit');
-  });
+  ARS_FIX.forEach((f,i)=>{ document.getElementById('arsenalFixtures').innerHTML+=row(arsScores[i],f,i,'ars'); });
+  CIT_FIX.forEach((f,i)=>{ document.getElementById('cityFixtures').innerHTML+=row(cityScores[i],f,i,'cit'); });
 }
 
-function adj(team, idx, side, delta) {
-  const scores = team === 'ars' ? arsScores : cityScores;
-  const cur = scores[idx][side];
-  const next = cur === null ? (delta > 0 ? 0 : null) : Math.max(0, cur + delta);
-  if (scores[idx][side] === null && delta < 0) return;
-  if (scores[idx].home === null && scores[idx].away === null && delta > 0) {
-    scores[idx].home = 0;
-    scores[idx].away = 0;
-  }
-  scores[idx][side] = next === null ? null : Math.max(0, (cur === null ? 0 : cur) + delta);
-  if (scores[idx][side] !== null && scores[idx][side === 'home' ? 'away' : 'home'] === null) {
-    scores[idx][side === 'home' ? 'away' : 'home'] = 0;
-  }
+function adj(team,idx,side,delta){
+  const sc=team==='ars'?arsScores:cityScores;
+  if(sc[idx][side]===null&&delta<0) return;
+  if(sc[idx].home===null){ sc[idx].home=0; sc[idx].away=0; }
+  sc[idx][side]=Math.max(0,sc[idx][side]+delta);
+  const other=side==='home'?'away':'home';
+  if(sc[idx][other]===null) sc[idx][other]=0;
   refresh();
 }
 
-function setScore(team, idx, side, val) {
-  const scores = team === 'ars' ? arsScores : cityScores;
-  const n = parseInt(val);
-  scores[idx][side] = isNaN(n) ? null : Math.max(0, n);
-  if (scores[idx][side] !== null && scores[idx][side === 'home' ? 'away' : 'home'] === null) {
-    scores[idx][side === 'home' ? 'away' : 'home'] = 0;
-  }
+function setScore(team,idx,side,val){
+  const sc=team==='ars'?arsScores:cityScores;
+  const n=parseInt(val);
+  sc[idx][side]=isNaN(n)?null:Math.max(0,n);
+  const other=side==='home'?'away':'home';
+  if(sc[idx][side]!==null&&sc[idx][other]===null) sc[idx][other]=0;
   refresh();
 }
 
-function refresh() {
-  buildTable();
-  renderFixtures();
-}
-
-function resetAll() {
-  arsScores = ARS_FIXTURES.map(() => ({ home: null, away: null }));
-  cityScores = CITY_FIXTURES.map(() => ({ home: null, away: null }));
+function resetAll(){
+  arsScores =ARS_FIX.map(()=>({home:null,away:null}));
+  cityScores=CIT_FIX.map(()=>({home:null,away:null}));
+  prevLeader='arsenal';
   refresh();
 }
 
